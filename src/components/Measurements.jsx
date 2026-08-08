@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import MeasurementChart from './MeasurementChart'
 import './Measurements.css'
 
 function Measurements({
@@ -15,6 +16,18 @@ function Measurements({
         )
 
     const [measurementValue, setMeasurementValue] =
+        useState('')
+
+    const [editingDate, setEditingDate] =
+        useState(null)
+
+    const [isAddingMeasurement, setIsAddingMeasurement] =
+        useState(false)
+
+    const [newMeasurementName, setNewMeasurementName] =
+        useState('')
+
+    const [newMeasurementUnit, setNewMeasurementUnit] =
         useState('')
 
     function saveMeasurement() {
@@ -38,17 +51,31 @@ function Measurements({
             const measurement =
                 previousMeasurements[selectedMeasurement]
 
+            let updatedHistory =
+                [...measurement.history]
+
+            // Если мы редактировали запись и поменяли дату,
+            // удаляем старую запись.
+            if (
+                editingDate !== null &&
+                editingDate !== measurementDate
+            ) {
+                updatedHistory =
+                    updatedHistory.filter(
+                        (entry) =>
+                            entry.date !== editingDate
+                    )
+            }
+
             const alreadyExists =
-                measurement.history.some(
+                updatedHistory.some(
                     (entry) =>
                         entry.date === measurementDate
                 )
 
-            let updatedHistory
-
             if (alreadyExists) {
                 updatedHistory =
-                    measurement.history.map((entry) => {
+                    updatedHistory.map((entry) => {
                         if (
                             entry.date === measurementDate
                         ) {
@@ -61,13 +88,10 @@ function Measurements({
                         return entry
                     })
             } else {
-                updatedHistory = [
-                    ...measurement.history,
-                    {
-                        date: measurementDate,
-                        value: normalizedValue
-                    }
-                ]
+                updatedHistory.push({
+                    date: measurementDate,
+                    value: normalizedValue
+                })
             }
 
             updatedHistory.sort(
@@ -86,25 +110,126 @@ function Measurements({
         })
 
         setMeasurementValue('')
+        setEditingDate(null)
+    }
+
+    function editHistoryEntry(entry) {
+        setMeasurementDate(entry.date)
+        setMeasurementValue(entry.value)
+        setEditingDate(entry.date)
+    }
+
+    function deleteHistoryEntry(date) {
+        setMeasurements((previousMeasurements) => {
+            const measurement =
+                previousMeasurements[selectedMeasurement]
+
+            const updatedHistory =
+                measurement.history.filter(
+                    (entry) =>
+                        entry.date !== date
+                )
+
+            return {
+                ...previousMeasurements,
+
+                [selectedMeasurement]: {
+                    ...measurement,
+                    history: updatedHistory
+                }
+            }
+        })
+
+        if (editingDate === date) {
+            setEditingDate(null)
+            setMeasurementValue('')
+        }
     }
 
     function openMeasurement(measurementId) {
         setSelectedMeasurement(measurementId)
         setMeasurementValue('')
+        setEditingDate(null)
+
+        setMeasurementDate(
+            new Date().toLocaleDateString('sv-SE')
+        )
+    }
+
+    function addCustomMeasurement() {
+        const name = newMeasurementName.trim()
+        const unit = newMeasurementUnit.trim()
+
+        if (name === '' || unit === '') {
+            return
+        }
+
+        const measurementId =
+            `custom-${Date.now()}`
+
+        setMeasurements((previousMeasurements) => ({
+            ...previousMeasurements,
+
+            [measurementId]: {
+                name: name,
+                unit: unit,
+                history: []
+            }
+        }))
+
+        setNewMeasurementName('')
+        setNewMeasurementUnit('')
+        setIsAddingMeasurement(false)
+    }
+
+    function deleteMeasurement() {
+        if (
+            selectedMeasurement === null ||
+            !selectedMeasurement.startsWith('custom-')
+        ) {
+            return
+        }
+
+        const shouldDelete = window.confirm(
+            'Удалить это измерение и всю его историю?'
+        )
+
+        if (!shouldDelete) {
+            return
+        }
+
+        setMeasurements((previousMeasurements) => {
+            const updatedMeasurements = {
+                ...previousMeasurements
+            }
+
+            delete updatedMeasurements[selectedMeasurement]
+
+            return updatedMeasurements
+        })
+
+        setSelectedMeasurement(null)
+        setMeasurementValue('')
+        setEditingDate(null)
     }
 
     if (selectedMeasurement !== null) {
         const measurement =
             measurements[selectedMeasurement]
 
+        const isCustomMeasurement =
+            selectedMeasurement.startsWith('custom-')
+
         return (
             <div className="measurements">
 
                 <button
                     type="button"
-                    onClick={() =>
+                    onClick={() => {
                         setSelectedMeasurement(null)
-                    }
+                        setMeasurementValue('')
+                        setEditingDate(null)
+                    }}
                 >
                     ← Назад
                 </button>
@@ -124,6 +249,7 @@ function Measurements({
                     />
 
                     <div className="measurement-value-input">
+
                         <input
                             type="text"
                             inputMode="decimal"
@@ -139,17 +265,49 @@ function Measurements({
                             }
                         />
 
-                        <span>{measurement.unit}</span>
+                        <span>
+                            {measurement.unit}
+                        </span>
+
                     </div>
 
                     <button
                         type="button"
                         onClick={saveMeasurement}
                     >
-                        Добавить запись
+                        {editingDate !== null
+                            ? 'Сохранить изменения'
+                            : 'Добавить запись'
+                        }
                     </button>
 
+                    {editingDate !== null && (
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setEditingDate(null)
+                                setMeasurementValue('')
+
+                                setMeasurementDate(
+                                    new Date()
+                                        .toLocaleDateString(
+                                            'sv-SE'
+                                        )
+                                )
+                            }}
+                        >
+                            Отмена
+                        </button>
+                    )}
+
                 </div>
+
+                <h3>Прогресс</h3>
+
+                <MeasurementChart
+                    history={measurement.history}
+                    unit={measurement.unit}
+                />
 
                 <h3>История</h3>
 
@@ -163,16 +321,60 @@ function Measurements({
                                 className="measurement-history-row"
                                 key={entry.date}
                             >
-                                <span>{entry.date}</span>
 
-                                <span>
-                                    {entry.value}{' '}
-                                    {measurement.unit}
-                                </span>
+                                <div className="measurement-history-data">
+
+                                    <span>
+                                        {entry.date}
+                                    </span>
+
+                                    <span>
+                                        {entry.value}{' '}
+                                        {measurement.unit}
+                                    </span>
+
+                                </div>
+
+                                <div className="measurement-history-actions">
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            editHistoryEntry(
+                                                entry
+                                            )
+                                        }
+                                    >
+                                        Изменить
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            deleteHistoryEntry(
+                                                entry.date
+                                            )
+                                        }
+                                    >
+                                        ×
+                                    </button>
+
+                                </div>
+
                             </div>
                         ))}
 
                     </div>
+                )}
+
+                {isCustomMeasurement && (
+                    <button
+                        type="button"
+                        className="delete-measurement-button"
+                        onClick={deleteMeasurement}
+                    >
+                        Удалить измерение
+                    </button>
                 )}
 
             </div>
@@ -227,12 +429,67 @@ function Measurements({
 
             </div>
 
-            <button
-                type="button"
-                className="add-measurement-button"
-            >
-                + Добавить измерение
-            </button>
+            {!isAddingMeasurement ? (
+                <button
+                    type="button"
+                    className="add-measurement-button"
+                    onClick={() =>
+                        setIsAddingMeasurement(true)
+                    }
+                >
+                    + Добавить измерение
+                </button>
+            ) : (
+                <div className="new-measurement-form">
+
+                    <input
+                        type="text"
+                        placeholder="Название"
+                        value={newMeasurementName}
+                        onFocus={(event) =>
+                            event.target.select()
+                        }
+                        onChange={(event) =>
+                            setNewMeasurementName(
+                                event.target.value
+                            )
+                        }
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Единица измерения"
+                        value={newMeasurementUnit}
+                        onFocus={(event) =>
+                            event.target.select()
+                        }
+                        onChange={(event) =>
+                            setNewMeasurementUnit(
+                                event.target.value
+                            )
+                        }
+                    />
+
+                    <button
+                        type="button"
+                        onClick={addCustomMeasurement}
+                    >
+                        Добавить
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setIsAddingMeasurement(false)
+                            setNewMeasurementName('')
+                            setNewMeasurementUnit('')
+                        }}
+                    >
+                        Отмена
+                    </button>
+
+                </div>
+            )}
 
         </div>
     )
