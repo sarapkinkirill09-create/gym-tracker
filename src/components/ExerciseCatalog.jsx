@@ -11,11 +11,12 @@ function ExerciseCatalog({
     const [searchQuery, setSearchQuery] = useState('')
 
     const telegram = window.Telegram?.WebApp
-
     const isTelegramMiniApp = Boolean(telegram?.initData)
 
     const filteredExercises = exercises.filter((exercise) => {
-        const correctGroup = exercise.muscleGroup === selectedGroup
+        const correctGroup =
+            selectedGroup === null ||
+            exercise.muscleGroup === selectedGroup
 
         const correctSearch = exercise.name
             .toLowerCase()
@@ -82,31 +83,60 @@ function ExerciseCatalog({
                 <p>Выберите упражнение для тренировки</p>
             )}
 
+            <input
+                type="text"
+                placeholder="Поиск упражнения..."
+                value={searchQuery}
+                onFocus={(event) => event.target.select()}
+                onChange={(event) =>
+                    setSearchQuery(event.target.value)
+                }
+            />
+
             {selectedGroup === null ? (
                 <div>
+
+                    {searchQuery.trim() !== '' && (
+                        <div className="exercise-cards">
+
+                            {filteredExercises.map((exercise) => (
+                                <div
+                                    className="exercise-card"
+                                    key={exercise.id}
+                                    onClick={() =>
+                                        handleExerciseClick(exercise)
+                                    }
+                                >
+                                    <p>{exercise.name}</p>
+                                </div>
+                            ))}
+
+                            {filteredExercises.length === 0 && (
+                                <p>Упражнение не найдено</p>
+                            )}
+
+                        </div>
+                    )}
+
                     <button
                         type="button"
                         className="group-button"
-                        onClick={() => setSelectedGroup('Ноги')}
+                        onClick={() => {
+                            setSelectedGroup('Ноги')
+                            setSearchQuery('')
+                        }}
                     >
                         Ноги
                     </button>
+
                 </div>
             ) : (
                 <div>
+
                     <h3>{selectedGroup}</h3>
 
-                    <input
-                        type="text"
-                        placeholder="Поиск упражнения..."
-                        value={searchQuery}
-                        onFocus={(event) => event.target.select()}
-                        onChange={(event) =>
-                            setSearchQuery(event.target.value)
-                        }
-                    />
-
                     <div className="exercise-cards">
+
                         {filteredExercises.map((exercise) => (
                             <div
                                 className="exercise-card"
@@ -118,11 +148,17 @@ function ExerciseCatalog({
                                 <p>{exercise.name}</p>
                             </div>
                         ))}
+
+                        {filteredExercises.length === 0 && (
+                            <p>Упражнение не найдено</p>
+                        )}
+
                     </div>
 
                     <button type="button">
                         + Добавить упражнение
                     </button>
+
                 </div>
             )}
 
