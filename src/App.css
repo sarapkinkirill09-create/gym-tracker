@@ -8,12 +8,18 @@
 
     margin: 0 auto;
 
-    padding:
-        16px
-        12px
-        24px;
-}
+    padding-top:
+        calc(16px + var(--tg-content-safe-area-inset-top, 0px));
 
+    padding-right:
+        calc(12px + var(--tg-content-safe-area-inset-right, 0px));
+
+    padding-bottom:
+        calc(24px + var(--tg-content-safe-area-inset-bottom, 0px));
+
+    padding-left:
+        calc(12px + var(--tg-content-safe-area-inset-left, 0px));
+    }
 .add-exercise-button {
     width: 100%;
     min-height: 44px;
