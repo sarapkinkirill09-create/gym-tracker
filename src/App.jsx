@@ -7,6 +7,7 @@ import ExerciseList from './components/ExerciseList'
 import BottomMenu from './components/BottomMenu'
 import ExerciseCatalog from './components/ExerciseCatalog'
 import Toast from './components/Toast'
+import Measurements from './components/Measurements'
 
 function App() {
     const [selectedDate, setSelectedDate] = useState(new Date())
@@ -274,15 +275,25 @@ function App() {
                             setCatalogMode('browse')
                             setCurrentScreen('exercises')
                         }}
+
+                        onOpenMeasurements={() => {
+                            setCurrentScreen('measurements')
+                        }}
                     />
                 </>
-            ) : (
+            ) : currentScreen === 'exercises' ? (
                 <ExerciseCatalog
                     onBack={() =>
                         setCurrentScreen('workout')
                     }
                     mode={catalogMode}
                     onSelectExercise={addExerciseToWorkout}
+                />
+            ) : (
+                <Measurements
+                    onBack={() =>
+                        setCurrentScreen('workout')
+                    }
                 />
             )}
 

@@ -1,6 +1,10 @@
-function BottomMenu({ onOpenExercises }) {
+function BottomMenu({
+    onOpenExercises,
+    onOpenMeasurements
+}) {
     return (
         <div className="bottom-menu">
+
             <button
                 type="button"
                 onClick={onOpenExercises}
@@ -8,9 +12,13 @@ function BottomMenu({ onOpenExercises }) {
                 Упражнения
             </button>
 
-            <button type="button">
+            <button
+                type="button"
+                onClick={onOpenMeasurements}
+            >
                 Измерения
             </button>
+
         </div>
     )
 }
