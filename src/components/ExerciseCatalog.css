@@ -1,0 +1,33 @@
+.exercise-catalog {
+    padding: 16px;
+}
+
+.group-button {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+
+.exercise-catalog input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+
+.exercise-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.exercise-card {
+    padding: 16px;
+    background: #464866;
+    border-radius: 10px;
+}
+
+.exercise-card p {
+    margin: 0;
+}

@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-width: 320px;
+
+    background: #25274D;
+    color: #AAABB8;
+
+    font-family: Arial, sans-serif;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input {
+    font: inherit;
+}

@@ -1,0 +1,57 @@
+.workout-exercise-card {
+    background: #464866;
+    border-radius: 20px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.workout-exercise-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.workout-exercise-image {
+    width: 60px;
+    height: 60px;
+    background: #AAABB8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.workout-exercise-header h3 {
+    flex: 1;
+    margin: 0;
+}
+
+.workout-exercise-set-count {
+    min-width: 70px;
+    text-align: center;
+}
+
+.workout-exercise-body {
+    margin-top: 12px;
+}
+
+.workout-set {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.workout-set input {
+    width: 70px;
+    padding: 6px;
+}
+
+.workout-set button {
+    padding: 4px 8px;
+}
+
+.delete-exercise-button {
+    display: block;
+    margin-top: 10px;
+}
