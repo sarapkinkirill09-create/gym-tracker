@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import exercises from '../data/exercises'
 import './ExerciseCatalog.css'
 
@@ -9,6 +9,10 @@ function ExerciseCatalog({
 }) {
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [searchQuery, setSearchQuery] = useState('')
+
+    const telegram = window.Telegram?.WebApp
+
+    const isTelegramMiniApp = Boolean(telegram?.initData)
 
     const filteredExercises = exercises.filter((exercise) => {
         const correctGroup = exercise.muscleGroup === selectedGroup
@@ -29,6 +33,31 @@ function ExerciseCatalog({
         }
     }
 
+    useEffect(() => {
+        const backButton = telegram?.BackButton
+
+        if (!backButton) {
+            return
+        }
+
+        function handleTelegramBack() {
+            if (selectedGroup !== null) {
+                setSelectedGroup(null)
+                setSearchQuery('')
+            } else {
+                onBack()
+            }
+        }
+
+        backButton.show()
+        backButton.onClick(handleTelegramBack)
+
+        return () => {
+            backButton.offClick(handleTelegramBack)
+            backButton.hide()
+        }
+    }, [selectedGroup, onBack, telegram])
+
     function handleExerciseClick(exercise) {
         if (mode === 'select') {
             onSelectExercise(exercise)
@@ -38,12 +67,14 @@ function ExerciseCatalog({
     return (
         <div className="exercise-catalog">
 
-            <button
-                type="button"
-                onClick={goBack}
-            >
-                ← Назад
-            </button>
+            {!isTelegramMiniApp && (
+                <button
+                    type="button"
+                    onClick={goBack}
+                >
+                    ← Назад
+                </button>
+            )}
 
             <h2>Упражнения</h2>
 
