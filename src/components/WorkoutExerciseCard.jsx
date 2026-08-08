@@ -102,6 +102,15 @@ function WorkoutExerciseCard({
 
                 <button
                     type="button"
+                    onClick={() =>
+                        onAddSet(workoutExercise.exerciseId)
+                    }
+                >
+                    + Добавить подход
+                </button>
+
+                <button
+                    type="button"
                     className="delete-exercise-button"
                     onClick={() =>
                         onDeleteExercise(
