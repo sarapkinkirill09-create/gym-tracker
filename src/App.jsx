@@ -25,6 +25,44 @@ function App() {
         return {}
     }
 })
+    const [measurements, setMeasurements] = useState(() => {
+        const savedMeasurements =
+            localStorage.getItem('gymTrackerMeasurements')
+
+        if (!savedMeasurements) {
+            return {
+                weight: {
+                    name: 'Вес',
+                    unit: 'кг',
+                    history: []
+                },
+
+                height: {
+                    name: 'Рост',
+                    unit: 'см',
+                    history: []
+                }
+            }
+        }
+
+        try {
+            return JSON.parse(savedMeasurements)
+        } catch {
+            return {
+                weight: {
+                    name: 'Вес',
+                    unit: 'кг',
+                    history: []
+                },
+
+                height: {
+                    name: 'Рост',
+                    unit: 'см',
+                    history: []
+                }
+            }
+        }
+})
     const [currentScreen, setCurrentScreen] = useState('workout')
     const [catalogMode, setCatalogMode] = useState('browse')
     const [toastMessage, setToastMessage] = useState('')
@@ -35,6 +73,13 @@ function App() {
             JSON.stringify(workouts)
         )
     }, [workouts])
+
+    useEffect(() => {
+    localStorage.setItem(
+        'gymTrackerMeasurements',
+        JSON.stringify(measurements)
+        )
+    }, [measurements])
 
     const dateKey = selectedDate.toLocaleDateString('sv-SE')
 
@@ -294,6 +339,8 @@ function App() {
                     onBack={() =>
                         setCurrentScreen('workout')
                     }
+                    measurements={measurements}
+                    setMeasurements={setMeasurements}
                 />
             )}
 

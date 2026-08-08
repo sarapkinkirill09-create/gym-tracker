@@ -32,3 +32,42 @@
     margin-top: 12px;
     padding: 10px 14px;
 }
+
+.measurement-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.measurement-input input {
+    width: 100%;
+    padding: 10px;
+}
+
+.measurement-value-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.measurement-value-input input {
+    flex: 1;
+}
+
+.measurement-history {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.measurement-history-row {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 10px 12px;
+
+    background: #464866;
+    border-radius: 8px;
+}
