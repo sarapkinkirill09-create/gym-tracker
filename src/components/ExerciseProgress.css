@@ -1,0 +1,36 @@
+.exercise-progress {
+    width: 100%;
+}
+
+.exercise-progress-history {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.exercise-progress-workout {
+    padding: 12px;
+
+    background: #464866;
+    border-radius: 10px;
+}
+
+.exercise-progress-date {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+}
+
+.exercise-progress-sets {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.exercise-progress-set {
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr;
+
+    gap: 8px;
+}

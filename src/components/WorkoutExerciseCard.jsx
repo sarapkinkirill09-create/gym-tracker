@@ -6,7 +6,8 @@ function WorkoutExerciseCard({
     onAddSet,
     onUpdateSet,
     onDeleteSet,
-    onDeleteExercise
+    onDeleteExercise,
+    onOpenProgress
 }) {
     const setCount = workoutExercise.sets.length
 
@@ -93,10 +94,10 @@ function WorkoutExerciseCard({
                 <button
                     type="button"
                     onClick={() =>
-                        onAddSet(workoutExercise.exerciseId)
+                        onOpenProgress(workoutExercise.exerciseId)
                     }
                 >
-                    + Добавить подход
+                    Прогресс
                 </button>
 
                 <button

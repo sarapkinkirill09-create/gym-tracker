@@ -8,23 +8,29 @@ import BottomMenu from './components/BottomMenu'
 import ExerciseCatalog from './components/ExerciseCatalog'
 import Toast from './components/Toast'
 import Measurements from './components/Measurements'
+import ExerciseProgress from './components/ExerciseProgress'
 
 function App() {
     const [selectedDate, setSelectedDate] = useState(new Date())
 
     const [workouts, setWorkouts] = useState(() => {
-    const savedWorkouts = localStorage.getItem('gymTrackerWorkouts')
+        const savedWorkouts =
+            localStorage.getItem('gymTrackerWorkouts')
 
-    if (!savedWorkouts) {
-        return {}
-    }
+        if (!savedWorkouts) {
+            return {}
+        }
 
-    try {
-        return JSON.parse(savedWorkouts)
-    } catch {
-        return {}
-    }
-})
+        try {
+            return JSON.parse(savedWorkouts)
+        } catch {
+            return {}
+        }
+    })
+
+    const [selectedExerciseId, setSelectedExerciseId] =
+        useState(null)
+
     const [measurements, setMeasurements] = useState(() => {
         const savedMeasurements =
             localStorage.getItem('gymTrackerMeasurements')
@@ -305,13 +311,20 @@ function App() {
 
                     <ExerciseList
                         workout={currentWorkout}
+
+                        onAddExercise={() => {
+                            setCatalogMode('select')
+                            setCurrentScreen('exercises')
+                        }}
+
                         onAddSet={addSetToExercise}
                         onUpdateSet={updateSet}
                         onDeleteSet={deleteSet}
                         onDeleteExercise={deleteExercise}
-                        onAddExercise={() => {
-                            setCatalogMode('select')
-                            setCurrentScreen('exercises')
+
+                        onOpenProgress={(exerciseId) => {
+                            setSelectedExerciseId(exerciseId)
+                            setCurrentScreen('exerciseProgress')
                         }}
                     />
 
@@ -334,7 +347,7 @@ function App() {
                     mode={catalogMode}
                     onSelectExercise={addExerciseToWorkout}
                 />
-            ) : (
+            ) : currentScreen === 'measurements' ? (
                 <Measurements
                     onBack={() =>
                         setCurrentScreen('workout')
@@ -342,8 +355,15 @@ function App() {
                     measurements={measurements}
                     setMeasurements={setMeasurements}
                 />
-            )}
-
+            ) : (
+                <ExerciseProgress
+                    exerciseId={selectedExerciseId}
+                    workouts={workouts}
+                    onBack={() =>
+                        setCurrentScreen('workout')
+                    }
+                />
+             )}
             <Toast message={toastMessage} />
         </div>
     )

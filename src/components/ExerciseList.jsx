@@ -7,7 +7,8 @@ function ExerciseList({
     onAddSet,
     onUpdateSet,
     onDeleteSet,
-    onDeleteExercise
+    onDeleteExercise,
+    onOpenProgress
 }) {
     return (
         <div>
@@ -37,6 +38,7 @@ function ExerciseList({
                                 onUpdateSet={onUpdateSet}
                                 onDeleteSet={onDeleteSet}
                                 onDeleteExercise={onDeleteExercise}
+                                onOpenProgress={onOpenProgress}
                             />
                         )
                     })}
