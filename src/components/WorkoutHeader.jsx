@@ -14,6 +14,11 @@ function WorkoutHeader({
         (sum, exercise) => sum + exercise.sets.length,
         0
     )
+    const exerciseCount =
+        workout.exercises.length
+
+    const setCount =
+        totalSets
 
     function changeName(newName) {
         setWorkouts({
