@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import exercises from '../data/exercises'
 import MeasurementChart from './MeasurementChart'
 import './ExerciseProgress.css'
@@ -9,7 +10,54 @@ function ExerciseProgress({
     deletedExerciseIds,
     onBack
 }) {
+        const telegram =
+            window.Telegram?.WebApp
 
+        const isTelegramMiniApp =
+            Boolean(
+                telegram &&
+                telegram.platform &&
+                telegram.platform !== 'unknown'
+            )
+
+
+        useEffect(() => {
+            const backButton =
+                telegram?.BackButton
+
+            if (
+                !isTelegramMiniApp ||
+                !backButton
+            ) {
+                return
+            }
+
+
+            function handleTelegramBack() {
+                onBack()
+            }
+
+
+            backButton.show()
+
+            backButton.onClick(
+                handleTelegramBack
+            )
+
+
+            return () => {
+                backButton.offClick(
+                    handleTelegramBack
+                )
+
+                backButton.hide()
+            }
+
+        }, [
+            onBack,
+            telegram,
+            isTelegramMiniApp
+        ])
     /*
         Собираем встроенные и пользовательские
         упражнения в один общий список.
@@ -39,13 +87,15 @@ function ExerciseProgress({
         return (
             <div className="exercise-progress">
 
-                <button
-                    type="button"
-                    className="progress-back-button"
-                    onClick={onBack}
-                >
-                    ← Назад
-                </button>
+                {!isTelegramMiniApp && (
+                    <button
+                        type="button"
+                        className="progress-back-button"
+                        onClick={onBack}
+                    >
+                        ← Назад
+                    </button>
+                )}
 
                 <div className="progress-empty">
                     Упражнение не найдено
@@ -140,13 +190,15 @@ function ExerciseProgress({
     return (
         <div className="exercise-progress">
 
-            <button
-                type="button"
-                className="progress-back-button"
-                onClick={onBack}
-            >
-                ← Назад
-            </button>
+            {!isTelegramMiniApp && (
+                <button
+                    type="button"
+                    className="progress-back-button"
+                    onClick={onBack}
+                >
+                    ← Назад
+                </button>
+)}
 
 
             <div className="progress-header">

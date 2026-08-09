@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MeasurementChart from './MeasurementChart'
 import './Measurements.css'
 
@@ -39,6 +39,56 @@ function Measurements({
     
     const [newMeasurementError, setNewMeasurementError] =
         useState('')
+
+    const telegram =
+        window.Telegram?.WebApp
+
+    const isTelegramMiniApp =
+        Boolean(telegram?.initData)
+
+    function goBack() {
+
+        /*
+            Если открыт конкретный показатель,
+            например "Вес", возвращаемся
+            к общему списку измерений.
+        */
+        if (selectedMeasurement !== null) {
+            setSelectedMeasurement(null)
+
+            setMeasurementValue('')
+
+            setEditingDate(null)
+
+            return
+        }
+
+
+        /*
+            Если открыта форма создания
+            нового показателя — сначала
+            просто закрываем её.
+        */
+        if (isAddingMeasurement) {
+            setIsAddingMeasurement(false)
+
+            setNewMeasurementName('')
+
+            setNewMeasurementUnit('')
+
+            setNewMeasurementError('')
+
+            return
+        }
+
+
+        /*
+            Если мы уже на главном экране
+            измерений — возвращаемся
+            к тренировке.
+        */
+        onBack()
+    }
 
     function saveMeasurement() {
         if (selectedMeasurement === null) {
@@ -222,6 +272,59 @@ function Measurements({
         setIsAddingMeasurement(false)
     }
 
+    useEffect(() => {
+
+        const backButton =
+            telegram?.BackButton
+
+
+        /*
+            Если приложение открыто
+            не внутри Telegram —
+            BackButton просто отсутствует.
+        */
+        if (!backButton) {
+            return
+        }
+
+
+        function handleTelegramBack() {
+            goBack()
+        }
+
+
+        /*
+            Показываем системную кнопку
+            Telegram.
+        */
+        backButton.show()
+
+        backButton.onClick(
+            handleTelegramBack
+        )
+
+
+        /*
+            Когда Measurements закрывается
+            или состояние экрана меняется,
+            удаляем старый обработчик.
+        */
+        return () => {
+
+            backButton.offClick(
+                handleTelegramBack
+            )
+
+            backButton.hide()
+        }
+
+    }, [
+        selectedMeasurement,
+        isAddingMeasurement,
+        onBack,
+        telegram
+    ])
+
     function deleteMeasurement() {
 
         if (
@@ -303,17 +406,15 @@ function Measurements({
         return (
             <div className="measurements">
 
-                <button
-                    type="button"
-                    className="measurement-back-button"
-                    onClick={() => {
-                        setSelectedMeasurement(null)
-                        setMeasurementValue('')
-                        setEditingDate(null)
-                    }}
-                >
-                    ← Назад
-                </button>
+                {!isTelegramMiniApp && (
+                    <button
+                        type="button"
+                        className="measurement-back-button"
+                        onClick={goBack}
+                    >
+                        ← Назад
+                    </button>
+                )}
 
 
                 <div className="measurement-detail-header">
@@ -637,13 +738,15 @@ function Measurements({
     return (
         <div className="measurements">
 
-            <button
-                type="button"
-                className="measurement-back-button"
-                onClick={onBack}
-            >
-                ← Назад
-            </button>
+            {!isTelegramMiniApp && (
+                <button
+                    type="button"
+                    className="measurement-back-button"
+                    onClick={goBack}
+                >
+                    ← Назад
+                </button>
+            )}
 
 
             <div className="measurements-header">
