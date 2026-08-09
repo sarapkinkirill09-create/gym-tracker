@@ -134,7 +134,10 @@ function App() {
         setCurrentScreen('workout')
     }
 
-    function addSetToExercise(exerciseId) {
+    function addSetToExercise(
+        exerciseId,
+        previousPerformance
+    ) {
         setWorkouts((previousWorkouts) => {
             const workout = previousWorkouts[dateKey] || {
                 name: '',
@@ -143,19 +146,43 @@ function App() {
 
             const updatedExercises = workout.exercises.map(
                 (exercise) => {
-                if (exercise.exerciseId === exerciseId) {
-                    const previousSet =
-                        exercise.sets[exercise.sets.length - 1]
+                    if (
+                        exercise.exerciseId !== exerciseId
+                    ) {
+                        return exercise
+                    }
 
-                    const newSet = previousSet
-                        ? {
+                    const previousSet =
+                        exercise.sets[
+                            exercise.sets.length - 1
+                        ]
+
+                    let newSet
+
+                    if (previousSet) {
+                        // Если подходы уже есть —
+                        // копируем предыдущий подход.
+                        newSet = {
                             weight: previousSet.weight,
                             reps: previousSet.reps
                         }
-                        : {
+                    } else if (previousPerformance) {
+                        // Если это первый подход —
+                        // берём лучший подход
+                        // предыдущей тренировки.
+                        newSet = {
+                            weight:
+                                previousPerformance.weight,
+                            reps:
+                                previousPerformance.reps
+                        }
+                    } else {
+                        // Упражнение выполняется впервые.
+                        newSet = {
                             weight: '',
                             reps: ''
                         }
+                    }
 
                     return {
                         ...exercise,
@@ -165,10 +192,7 @@ function App() {
                             newSet
                         ]
                     }
-                }
-
-                    return exercise
-                }
+                    }
             )
 
             return {
@@ -311,6 +335,8 @@ function App() {
 
                     <ExerciseList
                         workout={currentWorkout}
+                        workouts={workouts}
+                        dateKey={dateKey}
 
                         onAddExercise={() => {
                             setCatalogMode('select')

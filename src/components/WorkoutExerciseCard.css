@@ -55,3 +55,17 @@
     display: block;
     margin-top: 10px;
 }
+
+.previous-performance {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    margin: 8px 0 12px;
+
+    font-size: 13px;
+}
+
+.previous-performance strong {
+    color: #2E9CCA;
+}

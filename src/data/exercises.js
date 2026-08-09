@@ -6,7 +6,12 @@ const exercises = [
     },
     {
         id: 2,
-        name: 'Разгибание ног',
+        name: 'Разгибание ног в тренажере',
+        muscleGroup: 'Ноги'
+    },
+    {
+        id: 3,
+        name: 'Сгибание ног в тренажере',
         muscleGroup: 'Ноги'
     }
 ]

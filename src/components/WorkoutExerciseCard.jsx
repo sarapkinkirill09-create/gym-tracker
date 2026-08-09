@@ -3,6 +3,7 @@ import './WorkoutExerciseCard.css'
 function WorkoutExerciseCard({
     exerciseData,
     workoutExercise,
+    previousPerformance,
     onAddSet,
     onUpdateSet,
     onDeleteSet,
@@ -10,6 +11,13 @@ function WorkoutExerciseCard({
     onOpenProgress
 }) {
     const setCount = workoutExercise.sets.length
+
+    function formatDate(date) {
+        const [year, month, day] =
+            date.split('-')
+
+        return `${day}.${month}`
+    }
 
     return (
         <div className="workout-exercise-card">
@@ -30,71 +38,101 @@ function WorkoutExerciseCard({
 
             </div>
 
+            {previousPerformance && (
+                <div className="previous-performance">
+
+                    <span>
+                        Прошлый раз:
+                    </span>
+
+                    <strong>
+                        {previousPerformance.weight} кг
+                        {' × '}
+                        {previousPerformance.reps}
+                    </strong>
+
+                    <span>
+                        · {formatDate(
+                            previousPerformance.date
+                        )}
+                    </span>
+
+                </div>
+            )}
+
             <div className="workout-exercise-body">
 
                 {workoutExercise.sets.length === 0 && (
                     <p>Подходов пока нет</p>
                 )}
 
-                {workoutExercise.sets.map((set, index) => (
-                    <div
-                        className="workout-set"
-                        key={index}
-                    >
-                        <span>{index + 1}</span>
-
-                        <input
-                            type="number"
-                            placeholder="Вес"
-                            value={set.weight}
-                            onFocus={(event) => event.target.select()}
-                            onChange={(event) =>
-                                onUpdateSet(
-                                    workoutExercise.exerciseId,
-                                    index,
-                                    'weight',
-                                    event.target.value
-                                )
-                            }
-                        />
-
-                        <span>кг</span>
-
-                        <input
-                            type="number"
-                            placeholder="Повт."
-                            value={set.reps}
-                            onFocus={(event) => event.target.select()}
-                            onChange={(event) =>
-                                onUpdateSet(
-                                    workoutExercise.exerciseId,
-                                    index,
-                                    'reps',
-                                    event.target.value
-                                )
-                            }
-                        />
-
-                        <span>повт</span>
-
-                        <button
-                            type="button"
-                            onClick={() =>
-                                onDeleteSet(
-                                    workoutExercise.exerciseId,
-                                    index
-                                )
-                            }
+                {workoutExercise.sets.map(
+                    (set, index) => (
+                        <div
+                            className="workout-set"
+                            key={index}
                         >
-                            ×
-                        </button>
-                    </div>
-                ))}
+                            <span>{index + 1}</span>
+
+                            <input
+                                type="number"
+                                placeholder="Вес"
+                                value={set.weight}
+                                onFocus={(event) =>
+                                    event.target.select()
+                                }
+                                onChange={(event) =>
+                                    onUpdateSet(
+                                        workoutExercise.exerciseId,
+                                        index,
+                                        'weight',
+                                        event.target.value
+                                    )
+                                }
+                            />
+
+                            <span>кг</span>
+
+                            <input
+                                type="number"
+                                placeholder="Повт."
+                                value={set.reps}
+                                onFocus={(event) =>
+                                    event.target.select()
+                                }
+                                onChange={(event) =>
+                                    onUpdateSet(
+                                        workoutExercise.exerciseId,
+                                        index,
+                                        'reps',
+                                        event.target.value
+                                    )
+                                }
+                            />
+
+                            <span>повт</span>
+
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    onDeleteSet(
+                                        workoutExercise.exerciseId,
+                                        index
+                                    )
+                                }
+                            >
+                                ×
+                            </button>
+                        </div>
+                    )
+                )}
 
                 <button
                     type="button"
                     onClick={() =>
-                        onOpenProgress(workoutExercise.exerciseId)
+                        onOpenProgress(
+                            workoutExercise.exerciseId
+                        )
                     }
                 >
                     Прогресс
@@ -103,7 +141,10 @@ function WorkoutExerciseCard({
                 <button
                     type="button"
                     onClick={() =>
-                        onAddSet(workoutExercise.exerciseId)
+                        onAddSet(
+                            workoutExercise.exerciseId,
+                            previousPerformance
+                        )
                     }
                 >
                     + Добавить подход
