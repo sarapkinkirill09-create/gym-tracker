@@ -26,6 +26,39 @@ function WorkoutHeader({
         })
     }
 
+    function getWordForm(
+        number,
+        one,
+        few,
+        many
+    ) {
+        const lastTwoDigits =
+            number % 100
+
+        const lastDigit =
+            number % 10
+
+        if (
+            lastTwoDigits >= 11 &&
+            lastTwoDigits <= 14
+        ) {
+            return many
+        }
+
+        if (lastDigit === 1) {
+            return one
+        }
+
+        if (
+            lastDigit >= 2 &&
+            lastDigit <= 4
+        ) {
+            return few
+        }
+
+        return many
+    }
+    
     return (
         <div className="workout-header">
             <input
@@ -40,7 +73,23 @@ function WorkoutHeader({
 />
 
             <p>
-                {workout.exercises.length} упражнений • {totalSets} подходов
+                {exerciseCount}{' '}
+                {getWordForm(
+                    exerciseCount,
+                    'упражнение',
+                    'упражнения',
+                    'упражнений'
+                )}
+
+                {' • '}
+
+                {setCount}{' '}
+                {getWordForm(
+                    setCount,
+                    'подход',
+                    'подхода',
+                    'подходов'
+                )}
             </p>
         </div>
     )

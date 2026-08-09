@@ -10,6 +10,10 @@ function ExerciseProgress({
     onBack
 }) {
 
+    /*
+        Собираем встроенные и пользовательские
+        упражнения в один общий список.
+    */
     const allExercises = [
         ...exercises,
         ...customExercises
@@ -20,28 +24,48 @@ function ExerciseProgress({
             )
     )
 
+
+    /*
+        Находим упражнение, прогресс
+        которого сейчас открыт.
+    */
     const exercise = allExercises.find(
-    (item) =>
-        item.id === exerciseId
+        (item) =>
+            item.id === exerciseId
     )
+
 
     if (!exercise) {
         return (
-            <div>
+            <div className="exercise-progress">
+
                 <button
                     type="button"
+                    className="progress-back-button"
                     onClick={onBack}
                 >
                     ← Назад
                 </button>
 
-                <p>Упражнение не найдено</p>
+                <div className="progress-empty">
+                    Упражнение не найдено
+                </div>
+
             </div>
         )
     }
 
+
+    /*
+        Собираем историю упражнения
+        из всех тренировок.
+
+        Для графика пока используем
+        максимальный вес каждой тренировки.
+    */
     const history = Object.entries(workouts)
         .map(([date, workout]) => {
+
             const workoutExercise =
                 workout.exercises.find(
                     (item) =>
@@ -52,6 +76,7 @@ function ExerciseProgress({
                 return null
             }
 
+
             const validSets =
                 workoutExercise.sets.filter(
                     (set) =>
@@ -61,15 +86,19 @@ function ExerciseProgress({
                         )
                 )
 
+
             if (validSets.length === 0) {
                 return null
             }
 
+
             const maxWeight = Math.max(
                 ...validSets.map(
-                    (set) => Number(set.weight)
+                    (set) =>
+                        Number(set.weight)
                 )
             )
+
 
             return {
                 date: date,
@@ -77,92 +106,217 @@ function ExerciseProgress({
                 sets: workoutExercise.sets
             }
         })
-        .filter((entry) => entry !== null)
+
+        .filter(
+            (entry) =>
+                entry !== null
+        )
+
         .sort(
             (a, b) =>
                 b.date.localeCompare(a.date)
         )
 
-    const chartHistory = history.map((entry) => ({
-        date: entry.date,
-        value: entry.value
-    }))
+
+    /*
+        MeasurementChart нужны только
+        дата и значение.
+    */
+    const chartHistory =
+        history.map((entry) => ({
+            date: entry.date,
+            value: entry.value
+        }))
+
+
+    function formatDate(date) {
+        const [year, month, day] =
+            date.split('-')
+
+        return `${day}.${month}.${year}`
+    }
+
 
     return (
         <div className="exercise-progress">
 
             <button
                 type="button"
+                className="progress-back-button"
                 onClick={onBack}
             >
                 ← Назад
             </button>
 
-            <h2>{exercise.name}</h2>
 
-            <h3>Прогресс веса</h3>
+            <div className="progress-header">
 
-            <MeasurementChart
-                history={chartHistory}
-                unit="кг"
-            />
+                <span className="progress-eyebrow">
+                    Прогресс упражнения
+                </span>
 
-            <h3>История тренировок</h3>
+                <h2>
+                    {exercise.name}
+                </h2>
 
-            {history.length === 0 ? (
                 <p>
-                    Пока нет выполненных подходов
+                    Максимальный вес
+                    в каждой тренировке
                 </p>
-            ) : (
-                <div className="exercise-progress-history">
 
-                    {history.map((entry) => (
-                        <div
-                            className="exercise-progress-workout"
-                            key={entry.date}
-                        >
-                            <div className="exercise-progress-date">
+            </div>
 
-                                <span>
-                                    {entry.date}
-                                </span>
 
-                                <span>
-                                    максимум {entry.value} кг
-                                </span>
+            <section className="progress-section">
 
-                            </div>
+                <div className="progress-section-header">
+                    <div>
+                        <span className="progress-section-label">
+                            Динамика
+                        </span>
 
-                            <div className="exercise-progress-sets">
+                        <h3>
+                            Прогресс веса
+                        </h3>
+                    </div>
 
-                                {entry.sets.map(
-                                    (set, index) => (
-                                        <div
-                                            className="exercise-progress-set"
-                                            key={index}
-                                        >
-                                            <span>
-                                                {index + 1}
-                                            </span>
-
-                                            <span>
-                                                {set.weight || '—'} кг
-                                            </span>
-
-                                            <span>
-                                                {set.reps || '—'} повт
-                                            </span>
-                                        </div>
-                                    )
-                                )}
-
-                            </div>
-
-                        </div>
-                    ))}
-
+                    <span className="progress-unit-badge">
+                        кг
+                    </span>
                 </div>
-            )}
+
+
+                <MeasurementChart
+                    history={chartHistory}
+                    unit="кг"
+                />
+
+            </section>
+
+
+            <section className="progress-section">
+
+                <div className="progress-section-header">
+                    <div>
+                        <span className="progress-section-label">
+                            Журнал
+                        </span>
+
+                        <h3>
+                            История тренировок
+                        </h3>
+                    </div>
+
+                    {history.length > 0 && (
+                        <span className="progress-history-count">
+                            {history.length}
+                        </span>
+                    )}
+                </div>
+
+
+                {history.length === 0 ? (
+
+                    <div className="progress-empty">
+                        Пока нет выполненных подходов
+                    </div>
+
+                ) : (
+
+                    <div className="exercise-progress-history">
+
+                        {history.map((entry) => (
+
+                            <div
+                                className="exercise-progress-workout"
+                                key={entry.date}
+                            >
+
+                                <div className="exercise-progress-date">
+
+                                    <div>
+                                        <span className="history-date-label">
+                                            Тренировка
+                                        </span>
+
+                                        <strong>
+                                            {formatDate(
+                                                entry.date
+                                            )}
+                                        </strong>
+                                    </div>
+
+
+                                    <div className="history-max-weight">
+
+                                        <span>
+                                            максимум
+                                        </span>
+
+                                        <strong>
+                                            {entry.value}
+                                            <small>
+                                                кг
+                                            </small>
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div className="exercise-progress-sets">
+
+                                    {entry.sets.map(
+                                        (set, index) => (
+
+                                            <div
+                                                className="exercise-progress-set"
+                                                key={index}
+                                            >
+
+                                                <span className="history-set-number">
+                                                    {index + 1}
+                                                </span>
+
+
+                                                <div className="history-set-value">
+                                                    <strong>
+                                                        {set.weight || '—'}
+                                                    </strong>
+
+                                                    <span>
+                                                        кг
+                                                    </span>
+                                                </div>
+
+
+                                                <div className="history-set-value">
+                                                    <strong>
+                                                        {set.reps || '—'}
+                                                    </strong>
+
+                                                    <span>
+                                                        повт
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                        )
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        ))}
+
+                    </div>
+
+                )}
+
+            </section>
 
         </div>
     )

@@ -403,3 +403,206 @@
 
     font-size: 13px;
 }
+
+/* ---------- Создание упражнения ---------- */
+
+.create-exercise-card {
+    padding: 17px;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-large);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(11, 37, 25, 0.93),
+            rgba(5, 21, 14, 0.97)
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.035),
+
+        0 14px 34px
+        rgba(0, 0, 0, 0.22);
+}
+
+
+/* Отдельное поле */
+
+.create-exercise-field {
+    margin-bottom: 17px;
+}
+
+.create-exercise-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color:
+        var(--gold-light);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+}
+
+
+/*
+    Наш общий .exercise-catalog input
+    уже оформляет сами поля.
+    Здесь только убираем лишний
+    нижний отступ.
+*/
+
+.create-exercise-field input {
+    margin-bottom: 0;
+}
+
+
+/* Подсказка */
+
+.create-exercise-hint {
+    display: block;
+
+    margin-top: 6px;
+
+    color:
+        rgba(156, 165, 158, 0.72);
+
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+
+/* Ошибка */
+
+.create-exercise-error {
+    margin:
+        2px
+        0
+        15px;
+
+    padding:
+        10px
+        12px;
+
+    border:
+        1px solid
+        rgba(211, 107, 81, 0.25);
+
+    border-radius:
+        var(--radius-small);
+
+    background:
+        rgba(211, 107, 81, 0.07);
+
+    color:
+        #dd856f;
+
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+
+/* Кнопки */
+
+.create-exercise-actions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 5px;
+}
+
+
+/* Главная кнопка */
+
+.create-exercise-submit {
+    width: 100%;
+    min-height: 50px;
+
+    border:
+        1px solid
+        rgba(208, 167, 91, 0.72);
+
+    border-radius:
+        var(--radius-medium);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(208, 167, 91, 0.26),
+            rgba(126, 96, 53, 0.16)
+        );
+
+    color:
+        var(--gold-light);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+}
+
+.create-exercise-submit span {
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.create-exercise-submit:active {
+    transform:
+        scale(0.985);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(208, 167, 91, 0.36),
+            rgba(126, 96, 53, 0.23)
+        );
+}
+
+
+/* Отмена */
+
+.create-exercise-cancel {
+    width: 100%;
+    min-height: 42px;
+
+    border: 0;
+    border-radius:
+        var(--radius-small);
+
+    background: transparent;
+
+    color:
+        var(--text-muted);
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.create-exercise-cancel:active {
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    color:
+        var(--text);
+}

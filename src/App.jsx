@@ -9,6 +9,7 @@ import ExerciseCatalog from './components/ExerciseCatalog'
 import Toast from './components/Toast'
 import Measurements from './components/Measurements'
 import ExerciseProgress from './components/ExerciseProgress'
+import ConfirmModal from './components/ConfirmModal'
 
 function App() {
     const [selectedDate, setSelectedDate] = useState(new Date())
@@ -113,6 +114,7 @@ function App() {
     const [currentScreen, setCurrentScreen] = useState('workout')
     const [catalogMode, setCatalogMode] = useState('browse')
     const [toastMessage, setToastMessage] = useState('')
+    const [confirmDialog, setConfirmDialog] = useState(null)
 
     useEffect(() => {
         localStorage.setItem(
@@ -150,12 +152,45 @@ function App() {
     }
 
     function showToast(message) {
-    setToastMessage(message)
+        setToastMessage(message)
 
-    setTimeout(() => {
-        setToastMessage('')
-    }, 3000)
-}
+        setTimeout(() => {
+            setToastMessage('')
+        }, 3000)
+    }
+
+    function openConfirmDialog({
+        title,
+        message,
+        confirmText = 'Удалить',
+        onConfirm
+    }) {
+        setConfirmDialog({
+            title,
+            message,
+            confirmText,
+            onConfirm
+        })
+    }
+
+
+    function closeConfirmDialog() {
+        setConfirmDialog(null)
+    }
+
+
+    function confirmDialogAction() {
+        if (!confirmDialog) {
+            return
+        }
+
+        const action =
+            confirmDialog.onConfirm
+
+        setConfirmDialog(null)
+
+        action()
+    }
 
     function addExerciseToWorkout(exercise) {
         const alreadyAdded = currentWorkout.exercises.some(
@@ -372,21 +407,35 @@ function App() {
     }
 
     function deleteExerciseFromCatalog(exercise) {
-        const shouldDelete = window.confirm(
-            `Удалить «${exercise.name}»?\n\n` +
-            'Упражнение будет удалено из каталога, ' +
-            'всех тренировок и истории прогресса.'
-        )
 
-        if (!shouldDelete) {
-            return
-        }
+        openConfirmDialog({
+            title: 'Удалить упражнение?',
 
+            message:
+                `«${exercise.name}» будет удалено ` +
+                'из каталога, всех тренировок ' +
+                'и истории прогресса.',
+
+            confirmText: 'Удалить',
+
+            onConfirm: () =>
+                confirmDeleteExerciseFromCatalog(
+                    exercise
+                )
+        })
+    }
+
+
+    function confirmDeleteExerciseFromCatalog(
+        exercise
+    ) {
         const isCustomExercise =
             typeof exercise.id === 'string' &&
             exercise.id.startsWith('custom-')
 
+
         if (isCustomExercise) {
+
             setCustomExercises(
                 (previousExercises) =>
                     previousExercises.filter(
@@ -394,9 +443,12 @@ function App() {
                             item.id !== exercise.id
                     )
             )
+
         } else {
+
             setDeletedExerciseIds(
                 (previousIds) => {
+
                     if (
                         previousIds.includes(
                             exercise.id
@@ -411,10 +463,18 @@ function App() {
                     ]
                 }
             )
+
         }
 
+
+        /*
+            Также удаляем упражнение
+            из всех сохранённых тренировок.
+        */
         setWorkouts((previousWorkouts) => {
+
             const updatedWorkouts = {}
+
 
             Object.entries(previousWorkouts)
                 .forEach(([date, workout]) => {
@@ -429,10 +489,17 @@ function App() {
                                     exercise.id
                             )
                     }
+
                 })
+
 
             return updatedWorkouts
         })
+
+
+        showToast(
+            `«${exercise.name}» удалено`
+        )
     }
 
     return (
@@ -533,6 +600,7 @@ function App() {
                     }
                     measurements={measurements}
                     setMeasurements={setMeasurements}
+                    onRequestConfirm={openConfirmDialog}
                 />
             ) : (
                 <ExerciseProgress
@@ -548,6 +616,23 @@ function App() {
                     }
                 />
              )}
+
+            {confirmDialog && (
+                <ConfirmModal
+                    title={confirmDialog.title}
+                    message={confirmDialog.message}
+                    confirmText={
+                        confirmDialog.confirmText
+                    }
+                    onCancel={
+                        closeConfirmDialog
+                    }
+                    onConfirm={
+                        confirmDialogAction
+                    }
+                />
+            )}
+
             <Toast message={toastMessage} />
         </div>
     )

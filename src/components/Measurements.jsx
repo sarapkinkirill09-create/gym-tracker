@@ -11,7 +11,8 @@ import {
 function Measurements({
     onBack,
     measurements,
-    setMeasurements
+    setMeasurements,
+    onRequestConfirm
 }) {
     const [selectedMeasurement, setSelectedMeasurement] =
         useState(null)
@@ -222,36 +223,64 @@ function Measurements({
     }
 
     function deleteMeasurement() {
+
         if (
             selectedMeasurement === null ||
-            !selectedMeasurement.startsWith('custom-')
+            !selectedMeasurement.startsWith(
+                'custom-'
+            )
         ) {
             return
         }
 
-        const shouldDelete = window.confirm(
-            'Удалить это измерение и всю его историю?'
-        )
 
-        if (!shouldDelete) {
-            return
-        }
+        const measurement =
+            measurements[selectedMeasurement]
 
-        setMeasurements((previousMeasurements) => {
-            const updatedMeasurements = {
-                ...previousMeasurements
-            }
 
-            delete updatedMeasurements[selectedMeasurement]
+        onRequestConfirm({
+            title: 'Удалить показатель?',
 
-            return updatedMeasurements
+            message:
+                `«${measurement.name}» и вся ` +
+                'сохранённая история этого ' +
+                'показателя будут удалены.',
+
+            confirmText: 'Удалить',
+
+            onConfirm: () =>
+                confirmDeleteMeasurement(
+                    selectedMeasurement
+                )
         })
-
-        setSelectedMeasurement(null)
-        setMeasurementValue('')
-        setEditingDate(null)
     }
 
+    function confirmDeleteMeasurement(
+        measurementId
+    ) {
+
+        setMeasurements(
+            (previousMeasurements) => {
+
+                const updatedMeasurements = {
+                    ...previousMeasurements
+                }
+
+                delete updatedMeasurements[
+                    measurementId
+                ]
+
+                return updatedMeasurements
+            }
+        )
+
+
+        setSelectedMeasurement(null)
+
+        setMeasurementValue('')
+
+        setEditingDate(null)
+    }
     if (selectedMeasurement !== null) {
         const measurement =
             measurements[selectedMeasurement]
@@ -259,11 +288,24 @@ function Measurements({
         const isCustomMeasurement =
             selectedMeasurement.startsWith('custom-')
 
+        const latestMeasurement =
+            measurement.history[0]
+
+
+        function formatMeasurementDate(date) {
+            const [year, month, day] =
+                date.split('-')
+
+            return `${day}.${month}.${year}`
+        }
+
+
         return (
             <div className="measurements">
 
                 <button
                     type="button"
+                    className="measurement-back-button"
                     onClick={() => {
                         setSelectedMeasurement(null)
                         setMeasurementValue('')
@@ -273,36 +315,35 @@ function Measurements({
                     ← Назад
                 </button>
 
-                <h2>{measurement.name}</h2>
 
-                <div className="measurement-input">
+                <div className="measurement-detail-header">
 
-                    <input
-                        type="date"
-                        value={measurementDate}
-                        onChange={(event) =>
-                            setMeasurementDate(
-                                event.target.value
-                            )
-                        }
-                    />
+                    <span className="measurements-eyebrow">
+                        Показатель
+                    </span>
 
-                    <div className="measurement-value-input">
+                    <h2>
+                        {measurement.name}
+                    </h2>
 
-                        <input
-                            type="text"
-                            inputMode="decimal"
-                            placeholder="Значение"
-                            value={measurementValue}
-                            onFocus={(event) =>
-                                event.target.select()
+                </div>
+
+
+                <div className="measurement-current-card">
+
+                    <span className="measurement-current-label">
+                        Текущее значение
+                    </span>
+
+
+                    <div className="measurement-current-value">
+
+                        <strong>
+                            {latestMeasurement
+                                ? latestMeasurement.value
+                                : '—'
                             }
-                            onChange={(event) =>
-                                setMeasurementValue(
-                                    event.target.value
-                                )
-                            }
-                        />
+                        </strong>
 
                         <span>
                             {measurement.unit}
@@ -310,19 +351,114 @@ function Measurements({
 
                     </div>
 
+
+                    <p>
+                        {latestMeasurement
+                            ? `Последняя запись · ${formatMeasurementDate(
+                                latestMeasurement.date
+                            )}`
+                            : 'Добавь первую запись, чтобы начать отслеживать прогресс.'
+                        }
+                    </p>
+
+                </div>
+
+
+                <div className="measurement-entry-card">
+
+                    <div className="measurement-entry-header">
+
+                        <span>
+                            {editingDate !== null
+                                ? 'Редактирование записи'
+                                : 'Новая запись'
+                            }
+                        </span>
+
+                        <p>
+                            {editingDate !== null
+                                ? 'Измени дату или значение и сохрани результат.'
+                                : 'Зафиксируй текущее значение показателя.'
+                            }
+                        </p>
+
+                    </div>
+
+
+                    <div className="measurement-entry-field">
+
+                        <label>
+                            Дата
+                        </label>
+
+                        <input
+                            className="measurement-date-input"
+                            type="date"
+                            value={measurementDate}
+                            onChange={(event) =>
+                                setMeasurementDate(
+                                    event.target.value
+                                )
+                            }
+                        />
+
+                    </div>
+
+
+                    <div className="measurement-entry-field">
+
+                        <label>
+                            Значение
+                        </label>
+
+                        <div className="measurement-value-input">
+
+                            <input
+                                type="text"
+                                inputMode="decimal"
+                                placeholder="0"
+                                value={measurementValue}
+                                onFocus={(event) =>
+                                    event.target.select()
+                                }
+                                onChange={(event) =>
+                                    setMeasurementValue(
+                                        event.target.value
+                                    )
+                                }
+                            />
+
+                            <span>
+                                {measurement.unit}
+                            </span>
+
+                        </div>
+
+
+                        <span className="measurement-entry-hint">
+                            Если запись на эту дату уже существует,
+                            её значение будет обновлено.
+                        </span>
+
+                    </div>
+
+
                     <button
                         type="button"
+                        className="measurement-save-button"
                         onClick={saveMeasurement}
                     >
                         {editingDate !== null
                             ? 'Сохранить изменения'
-                            : 'Добавить запись'
+                            : '+ Добавить запись'
                         }
                     </button>
+
 
                     {editingDate !== null && (
                         <button
                             type="button"
+                            className="measurement-edit-cancel"
                             onClick={() => {
                                 setEditingDate(null)
                                 setMeasurementValue('')
@@ -335,76 +471,154 @@ function Measurements({
                                 )
                             }}
                         >
-                            Отмена
+                            Отменить редактирование
                         </button>
                     )}
 
                 </div>
 
-                <h3>Прогресс</h3>
 
-                <MeasurementChart
-                    history={measurement.history}
-                    unit={measurement.unit}
-                />
+                <section className="measurement-detail-section">
 
-                <h3>История</h3>
+                    <div className="measurement-detail-section-header">
 
-                {measurement.history.length === 0 ? (
-                    <p>Пока нет измерений</p>
-                ) : (
-                    <div className="measurement-history">
+                        <div>
+                            <span>
+                                Динамика
+                            </span>
 
-                        {measurement.history.map((entry) => (
-                            <div
-                                className="measurement-history-row"
-                                key={entry.date}
-                            >
+                            <h3>
+                                Прогресс
+                            </h3>
+                        </div>
 
-                                <div className="measurement-history-data">
-
-                                    <span>
-                                        {entry.date}
-                                    </span>
-
-                                    <span>
-                                        {entry.value}{' '}
-                                        {measurement.unit}
-                                    </span>
-
-                                </div>
-
-                                <div className="measurement-history-actions">
-
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            editHistoryEntry(
-                                                entry
-                                            )
-                                        }
-                                    >
-                                        Изменить
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            deleteHistoryEntry(
-                                                entry.date
-                                            )
-                                        }
-                                    >
-                                        ×
-                                    </button>
-
-                                </div>
-
-                            </div>
-                        ))}
+                        <div className="measurement-unit-badge">
+                            {measurement.unit}
+                        </div>
 
                     </div>
-                )}
+
+
+                    <MeasurementChart
+                        history={measurement.history}
+                        unit={measurement.unit}
+                    />
+
+                </section>
+
+
+                <section className="measurement-detail-section">
+
+                    <div className="measurement-detail-section-header">
+
+                        <div>
+                            <span>
+                                Журнал
+                            </span>
+
+                            <h3>
+                                История
+                            </h3>
+                        </div>
+
+
+                        {measurement.history.length > 0 && (
+                            <div className="measurement-history-count">
+                                {measurement.history.length}
+                            </div>
+                        )}
+
+                    </div>
+
+
+                    {measurement.history.length === 0 ? (
+
+                        <div className="measurement-history-empty">
+                            Пока нет измерений
+                        </div>
+
+                    ) : (
+
+                        <div className="measurement-history">
+
+                            {measurement.history.map(
+                                (entry) => (
+
+                                    <div
+                                        className="measurement-history-row"
+                                        key={entry.date}
+                                    >
+
+                                        <div className="measurement-history-data">
+
+                                            <div>
+                                                <span>
+                                                    Запись
+                                                </span>
+
+                                                <strong>
+                                                    {formatMeasurementDate(
+                                                        entry.date
+                                                    )}
+                                                </strong>
+                                            </div>
+
+
+                                            <div className="measurement-history-value">
+
+                                                <strong>
+                                                    {entry.value}
+                                                </strong>
+
+                                                <span>
+                                                    {measurement.unit}
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div className="measurement-history-actions">
+
+                                            <button
+                                                type="button"
+                                                className="measurement-history-edit"
+                                                onClick={() =>
+                                                    editHistoryEntry(
+                                                        entry
+                                                    )
+                                                }
+                                            >
+                                                Изменить
+                                            </button>
+
+
+                                            <button
+                                                type="button"
+                                                className="measurement-history-delete"
+                                                onClick={() =>
+                                                    deleteHistoryEntry(
+                                                        entry.date
+                                                    )
+                                                }
+                                            >
+                                                ×
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                )
+                            )}
+
+                        </div>
+
+                    )}
+
+                </section>
+
 
                 {isCustomMeasurement && (
                     <button
@@ -412,7 +626,7 @@ function Measurements({
                         className="delete-measurement-button"
                         onClick={deleteMeasurement}
                     >
-                        Удалить измерение
+                        Удалить показатель и всю историю
                     </button>
                 )}
 
@@ -425,12 +639,30 @@ function Measurements({
 
             <button
                 type="button"
+                className="measurement-back-button"
                 onClick={onBack}
             >
                 ← Назад
             </button>
 
-            <h2>Измерения</h2>
+
+            <div className="measurements-header">
+
+                <span className="measurements-eyebrow">
+                    Тело и показатели
+                </span>
+
+                <h2>
+                    Измерения
+                </h2>
+
+                <p>
+                    Отслеживай изменения тела
+                    и любые другие показатели со временем.
+                </p>
+
+            </div>
+
 
             <div className="measurement-list">
 
@@ -451,16 +683,43 @@ function Measurements({
                                     )
                                 }
                             >
-                                <span>
-                                    {measurement.name}
+
+                                <div className="measurement-card-info">
+
+                                    <span className="measurement-card-name">
+                                        {measurement.name}
+                                    </span>
+
+                                    <span className="measurement-card-status">
+                                        {latest
+                                            ? `Последняя запись · ${latest.date}`
+                                            : 'Записей пока нет'
+                                        }
+                                    </span>
+
+                                </div>
+
+
+                                <div className="measurement-card-value">
+
+                                    <strong>
+                                        {latest
+                                            ? latest.value
+                                            : '—'
+                                        }
+                                    </strong>
+
+                                    <span>
+                                        {measurement.unit}
+                                    </span>
+
+                                </div>
+
+
+                                <span className="measurement-card-arrow">
+                                    ›
                                 </span>
 
-                                <span>
-                                    {latest
-                                        ? `${latest.value} ${measurement.unit}`
-                                        : `— ${measurement.unit}`
-                                    }
-                                </span>
                             </button>
                         )
                     }
@@ -468,66 +727,142 @@ function Measurements({
 
             </div>
 
+
             {!isAddingMeasurement ? (
+
                 <button
                     type="button"
                     className="add-measurement-button"
-                    onClick={() =>
+                    onClick={() => {
                         setIsAddingMeasurement(true)
-                    }
+                        setNewMeasurementError('')
+                    }}
                 >
-                    + Добавить измерение
+
+                    <span className="add-measurement-icon">
+                        +
+                    </span>
+
+                    <span>
+                        Добавить измерение
+                    </span>
+
                 </button>
+
             ) : (
+
                 <div className="new-measurement-form">
 
-                    <input
-                        type="text"
-                        placeholder="Название"
-                        value={newMeasurementName}
-                        onFocus={(event) =>
-                            event.target.select()
-                        }
-                        onChange={(event) =>
-                            setNewMeasurementName(
-                                event.target.value
-                            )
-                        }
-                    />
+                    <div className="new-measurement-header">
 
-                    <input
-                        type="text"
-                        placeholder="Единица измерения"
-                        value={newMeasurementUnit}
-                        onFocus={(event) =>
-                            event.target.select()
-                        }
-                        onChange={(event) =>
-                            setNewMeasurementUnit(
-                                event.target.value
-                            )
-                        }
-                    />
+                        <span>
+                            Новый показатель
+                        </span>
 
-                    <button
-                        type="button"
-                        onClick={addCustomMeasurement}
-                    >
-                        Добавить
-                    </button>
+                        <p>
+                            Добавь то, что хочешь
+                            отслеживать регулярно.
+                        </p>
 
-                    <button
-                        type="button"
-                        onClick={() => {
-                            setIsAddingMeasurement(false)
-                            setNewMeasurementName('')
-                            setNewMeasurementUnit('')
-                        }}
-                    >
-                        Отмена
-                    </button>
+                    </div>
+
+
+                    <div className="new-measurement-field">
+
+                        <label>
+                            Название
+                        </label>
+
+                        <input
+                            type="text"
+                            placeholder="Например: Обхват талии"
+                            value={newMeasurementName}
+                            onFocus={(event) =>
+                                event.target.select()
+                            }
+                            onChange={(event) => {
+                                setNewMeasurementName(
+                                    event.target.value
+                                )
+
+                                setNewMeasurementError('')
+                            }}
+                        />
+
+                        <span className="new-measurement-hint">
+                            Название показателя,
+                            который хочешь отслеживать.
+                        </span>
+
+                    </div>
+
+
+                    <div className="new-measurement-field">
+
+                        <label>
+                            Единица измерения
+                        </label>
+
+                        <input
+                            type="text"
+                            placeholder="Например: см"
+                            value={newMeasurementUnit}
+                            onFocus={(event) =>
+                                event.target.select()
+                            }
+                            onChange={(event) => {
+                                setNewMeasurementUnit(
+                                    event.target.value
+                                )
+
+                                setNewMeasurementError('')
+                            }}
+                        />
+
+                        <span className="new-measurement-hint">
+                            Лучше использовать короткое обозначение:
+                            см, кг, %, мм.
+                        </span>
+
+                    </div>
+
+
+                    {newMeasurementError && (
+                        <div className="new-measurement-error">
+                            {newMeasurementError}
+                        </div>
+                    )}
+
+
+                    <div className="new-measurement-actions">
+
+                        <button
+                            type="button"
+                            className="new-measurement-submit"
+                            onClick={addCustomMeasurement}
+                        >
+                            <span>+</span>
+                            Создать показатель
+                        </button>
+
+
+                        <button
+                            type="button"
+                            className="new-measurement-cancel"
+                            onClick={() => {
+                                setIsAddingMeasurement(false)
+                                setNewMeasurementName('')
+                                setNewMeasurementUnit('')
+                                setNewMeasurementError('')
+                            }}
+                        >
+                            Отмена
+                        </button>
+
+                    </div>
 
                 </div>
+
             )}
 
         </div>

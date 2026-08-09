@@ -2,156 +2,1292 @@
     width: 100%;
 }
 
+
+/* ---------- Назад ---------- */
+
+.measurement-back-button {
+    margin:
+        2px
+        0
+        16px;
+
+    padding:
+        7px
+        0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--gold);
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+
+/* ---------- Заголовок ---------- */
+
+.measurements-header {
+    margin-bottom: 22px;
+}
+
+.measurements-eyebrow {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--gold);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.11em;
+
+    text-transform: uppercase;
+}
+
+.measurements-header h2 {
+    margin: 0;
+
+    color: var(--gold-light);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 32px;
+    font-weight: 500;
+
+    line-height: 1.1;
+}
+
+.measurements-header p {
+    max-width: 290px;
+
+    margin:
+        8px
+        0
+        0;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+
+/* ---------- Список ---------- */
+
 .measurement-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+
+    gap: 9px;
 }
+
+
+/* ---------- Карточка ---------- */
 
 .measurement-card {
-    width: 100%;
-    min-height: 60px;
+    position: relative;
 
-    display: flex;
-    justify-content: space-between;
+    width: 100%;
+    min-height: 70px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto
+        16px;
+
     align-items: center;
 
-    padding: 12px 14px;
+    gap: 12px;
 
-    background: #464866;
-    color: #AAABB8;
+    padding:
+        12px
+        13px
+        12px
+        15px;
 
-    border: none;
-    border-radius: 10px;
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-large);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(11, 37, 25, 0.92),
+            rgba(5, 20, 13, 0.97)
+        );
+
+    color: var(--text);
+
+    text-align: left;
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.03),
+
+        0 9px 24px
+        rgba(0, 0, 0, 0.17);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease;
 }
+
+.measurement-card:active {
+    transform:
+        scale(0.985);
+
+    border-color:
+        rgba(208, 167, 91, 0.65);
+}
+
+
+/* Название + дата */
+
+.measurement-card-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.measurement-card-name {
+    color: var(--text);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.measurement-card-status {
+    overflow: hidden;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* Последнее значение */
+
+.measurement-card-value {
+    display: flex;
+
+    align-items: baseline;
+    justify-content: flex-end;
+
+    gap: 4px;
+}
+
+.measurement-card-value strong {
+    color: var(--gold-light);
+
+    font-size: 21px;
+    font-weight: 600;
+
+    line-height: 1;
+}
+
+.measurement-card-value span {
+    color: var(--gold);
+
+    font-size: 9px;
+    font-weight: 500;
+}
+
+
+/* Стрелочка */
+
+.measurement-card-arrow {
+    color:
+        rgba(208, 167, 91, 0.50);
+
+    font-family:
+        var(--font-ui);
+
+    font-size: 23px;
+    font-weight: 300;
+
+    line-height: 1;
+}
+
+
+/* ---------- Добавить показатель ---------- */
 
 .add-measurement-button {
     width: 100%;
-    min-height: 44px;
+    min-height: 57px;
 
-    margin-top: 12px;
-    padding: 10px 14px;
-}
+    margin-top: 13px;
 
-.measurement-input {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    margin-bottom: 20px;
-}
-
-.measurement-input input {
-    width: 100%;
-    padding: 10px;
-}
-
-.measurement-value-input {
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    gap: 11px;
+
+    border:
+        1px solid
+        rgba(208, 167, 91, 0.48);
+
+    border-radius:
+        var(--radius-large);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(13, 46, 31, 0.88),
+            rgba(5, 23, 15, 0.95)
+        );
+
+    color: var(--gold-light);
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.add-measurement-button:active {
+    transform:
+        scale(0.985);
+
+    border-color:
+        var(--gold);
+}
+
+.add-measurement-icon {
+    width: 31px;
+    height: 31px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        var(--gold);
+
+    border-radius: 50%;
+
+    color: var(--gold);
+
+    font-size: 22px;
+    font-weight: 300;
+
+    line-height: 1;
+}
+
+/* ---------- Экран одного показателя ---------- */
+
+.measurement-detail-header {
+    margin-bottom: 17px;
+}
+
+.measurement-detail-header h2 {
+    margin: 0;
+
+    color: var(--gold-light);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 32px;
+    font-weight: 500;
+
+    line-height: 1.1;
+}
+
+
+/* ---------- Текущее значение ---------- */
+
+.measurement-current-card {
+    margin-bottom: 12px;
+
+    padding:
+        18px
+        18px
+        16px;
+
+    border:
+        1px solid
+        rgba(208, 167, 91, 0.48);
+
+    border-radius:
+        var(--radius-large);
+
+    background:
+        radial-gradient(
+            circle at 85% 10%,
+            rgba(208, 167, 91, 0.10),
+            transparent 40%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(13, 43, 29, 0.95),
+            rgba(5, 21, 14, 0.98)
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.035),
+
+        0 13px 30px
+        rgba(0, 0, 0, 0.20);
+}
+
+.measurement-current-label {
+    color:
+        rgba(208, 167, 91, 0.72);
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 0.10em;
+
+    text-transform: uppercase;
+}
+
+.measurement-current-value {
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 7px;
+
+    margin-top: 6px;
+}
+
+.measurement-current-value strong {
+    color: var(--gold-light);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 48px;
+    font-weight: 500;
+
+    line-height: 1;
+}
+
+.measurement-current-value span {
+    color: var(--gold);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.measurement-current-card p {
+    margin:
+        9px
+        0
+        0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+
+/* ---------- Добавление записи ---------- */
+
+.measurement-entry-card {
+    margin-bottom: 22px;
+
+    padding: 16px;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-large);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 35, 23, 0.92),
+            rgba(5, 19, 13, 0.97)
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.025),
+
+        0 10px 26px
+        rgba(0, 0, 0, 0.17);
+}
+
+.measurement-entry-header {
+    margin-bottom: 16px;
+}
+
+.measurement-entry-header > span {
+    display: block;
+
+    color: var(--text);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.measurement-entry-header p {
+    margin:
+        4px
+        0
+        0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+
+/* ---------- Поля ---------- */
+
+.measurement-entry-field {
+    margin-bottom: 14px;
+}
+
+.measurement-entry-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--gold-light);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    letter-spacing: 0.035em;
+}
+
+.measurement-entry-field input {
+    width: 100%;
+    min-width: 0;
+    min-height: 47px;
+
+    padding:
+        10px
+        13px;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-medium);
+
+    outline: none;
+
+    background:
+        rgba(4, 17, 11, 0.72);
+
+    color: var(--text);
+
+    font-size: 15px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+}
+
+.measurement-entry-field input:focus {
+    border-color:
+        rgba(208, 167, 91, 0.70);
+
+    background:
+        rgba(7, 26, 17, 0.90);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(208, 167, 91, 0.06);
+}
+
+
+/*
+    Чтобы системный календарь
+    нормально выглядел на тёмном фоне.
+*/
+.measurement-date-input {
+    color-scheme: dark;
+}
+
+
+/* Значение + единица */
+
+.measurement-value-input {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
+    align-items: center;
+
     gap: 8px;
 }
 
-.measurement-value-input input {
-    flex: 1;
+.measurement-value-input span {
+    min-width: 47px;
+    height: 47px;
+
+    padding:
+        0
+        10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-medium);
+
+    background:
+        rgba(208, 167, 91, 0.05);
+
+    color: var(--gold);
+
+    font-size: 11px;
+    font-weight: 600;
 }
+
+
+/* Пояснение */
+
+.measurement-entry-hint {
+    display: block;
+
+    margin-top: 6px;
+
+    color:
+        rgba(156, 165, 158, 0.70);
+
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+
+/* ---------- Сохранить ---------- */
+
+.measurement-save-button {
+    width: 100%;
+    min-height: 49px;
+
+    margin-top: 2px;
+
+    border:
+        1px solid
+        rgba(208, 167, 91, 0.72);
+
+    border-radius:
+        var(--radius-medium);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(208, 167, 91, 0.25),
+            rgba(126, 96, 53, 0.15)
+        );
+
+    color: var(--gold-light);
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+}
+
+.measurement-save-button:active {
+    transform: scale(0.985);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(208, 167, 91, 0.35),
+            rgba(126, 96, 53, 0.22)
+        );
+}
+
+.measurement-edit-cancel {
+    width: 100%;
+    min-height: 38px;
+
+    margin-top: 5px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+
+/* ---------- Заголовки секций ---------- */
+
+.measurement-detail-section {
+    margin-bottom: 19px;
+}
+
+.measurement-detail-section-header {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 10px;
+}
+
+.measurement-detail-section-header > div:first-child > span {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color:
+        rgba(208, 167, 91, 0.68);
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 0.10em;
+
+    text-transform: uppercase;
+}
+
+.measurement-detail-section-header h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.measurement-unit-badge,
+.measurement-history-count {
+    min-width: 31px;
+    height: 31px;
+
+    padding:
+        0
+        8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius: 999px;
+
+    background:
+        rgba(208, 167, 91, 0.05);
+
+    color: var(--gold);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+/* ---------- История ---------- */
 
 .measurement-history {
     display: flex;
     flex-direction: column;
+
     gap: 8px;
 }
 
 .measurement-history-row {
-    padding: 10px 12px;
+    padding:
+        12px
+        12px
+        9px;
 
-    background: #464866;
-    border-radius: 8px;
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-medium);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 35, 23, 0.91),
+            rgba(5, 19, 13, 0.96)
+        );
 }
 
 .measurement-history-data {
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding-bottom: 9px;
+
+    border-bottom:
+        1px solid
+        var(--soft-line);
 }
 
-.measurement-history-actions {
+.measurement-history-data > div:first-child {
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.measurement-history-data > div:first-child span {
+    color: var(--text-muted);
+
+    font-size: 8px;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+.measurement-history-data > div:first-child strong {
+    color: var(--text);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.measurement-history-value {
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 4px;
+}
+
+.measurement-history-value strong {
+    color: var(--gold-light);
+
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.measurement-history-value span {
+    color: var(--gold);
+
+    font-size: 9px;
+}
+
+
+/* Кнопки истории */
+
+.measurement-history-actions {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        36px;
+
+    gap: 7px;
 
     margin-top: 8px;
 }
 
-.measurement-history-actions button {
-    padding: 5px 8px;
+.measurement-history-edit {
+    min-height: 34px;
+
+    border:
+        1px solid
+        rgba(208, 167, 91, 0.20);
+
+    border-radius:
+        var(--radius-small);
+
+    background:
+        rgba(208, 167, 91, 0.035);
+
+    color: var(--gold);
+
+    font-size: 10px;
+
+    cursor: pointer;
 }
+
+.measurement-history-delete {
+    min-height: 34px;
+
+    border:
+        1px solid
+        rgba(211, 107, 81, 0.18);
+
+    border-radius:
+        var(--radius-small);
+
+    background:
+        rgba(211, 107, 81, 0.025);
+
+    color:
+        rgba(211, 107, 81, 0.65);
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+
+/* ---------- Пустая история ---------- */
+
+.measurement-history-empty {
+    padding:
+        22px
+        15px;
+
+    border:
+        1px dashed
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-medium);
+
+    color: var(--text-muted);
+
+    text-align: center;
+
+    font-size: 11px;
+}
+
+
+/* ---------- Удаление показателя ---------- */
 
 .delete-measurement-button {
     width: 100%;
+    min-height: 44px;
 
-    margin-top: 20px;
-    padding: 10px;
+    margin:
+        5px
+        0
+        10px;
+
+    border:
+        1px solid
+        rgba(211, 107, 81, 0.26);
+
+    border-radius:
+        var(--radius-medium);
+
+    background:
+        rgba(211, 107, 81, 0.045);
+
+    color:
+        rgba(211, 107, 81, 0.78);
+
+    font-size: 11px;
+
+    cursor: pointer;
 }
+
+.delete-measurement-button:active {
+    background:
+        rgba(211, 107, 81, 0.10);
+
+    color: var(--danger);
+}
+
+/* ---------- Новый показатель ---------- */
 
 .new-measurement-form {
+    margin-top: 13px;
+
+    padding: 17px;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-large);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(11, 37, 25, 0.93),
+            rgba(5, 21, 14, 0.97)
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.035),
+
+        0 14px 34px
+        rgba(0, 0, 0, 0.20);
+}
+
+
+/* Заголовок формы */
+
+.new-measurement-header {
+    margin-bottom: 18px;
+}
+
+.new-measurement-header > span {
+    display: block;
+
+    color: var(--gold-light);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.new-measurement-header p {
+    margin:
+        4px
+        0
+        0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+
+/* Одно поле */
+
+.new-measurement-field {
+    margin-bottom: 17px;
+}
+
+.new-measurement-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--gold-light);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+}
+
+.new-measurement-field input {
+    width: 100%;
+    min-height: 48px;
+
+    padding:
+        11px
+        14px;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-medium);
+
+    outline: none;
+
+    background:
+        rgba(5, 20, 13, 0.78);
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.new-measurement-field input::placeholder {
+    color:
+        rgba(240, 236, 226, 0.30);
+}
+
+.new-measurement-field input:focus {
+    border-color:
+        rgba(208, 167, 91, 0.70);
+
+    background:
+        rgba(8, 29, 19, 0.92);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(208, 167, 91, 0.06);
+}
+
+
+/* Пояснение под полем */
+
+.new-measurement-hint {
+    display: block;
+
+    margin-top: 6px;
+
+    color:
+        rgba(156, 165, 158, 0.72);
+
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+
+/* Ошибка */
+
+.new-measurement-error {
+    margin-bottom: 15px;
+
+    padding:
+        10px
+        12px;
+
+    border:
+        1px solid
+        rgba(211, 107, 81, 0.25);
+
+    border-radius:
+        var(--radius-small);
+
+    background:
+        rgba(211, 107, 81, 0.07);
+
+    color: #dd856f;
+
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+
+/* Кнопки */
+
+.new-measurement-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
 
-    margin-top: 12px;
+    gap: 7px;
+
+    margin-top: 4px;
 }
 
-.new-measurement-form input {
+.new-measurement-submit {
     width: 100%;
-    padding: 10px;
+    min-height: 49px;
+
+    border:
+        1px solid
+        rgba(208, 167, 91, 0.70);
+
+    border-radius:
+        var(--radius-medium);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(208, 167, 91, 0.25),
+            rgba(126, 96, 53, 0.15)
+        );
+
+    color: var(--gold-light);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
 }
+
+.new-measurement-submit span {
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.new-measurement-submit:active {
+    transform:
+        scale(0.985);
+}
+
+.new-measurement-cancel {
+    min-height: 40px;
+
+    border: 0;
+    border-radius:
+        var(--radius-small);
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+/* ---------- Общий график ---------- */
 
 .measurement-chart {
     width: 100%;
 
     margin-bottom: 20px;
 
-    padding: 10px;
+    padding:
+        13px
+        10px
+        8px;
 
-    background: #464866;
-    border-radius: 10px;
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-large);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(11, 37, 25, 0.92),
+            rgba(5, 20, 13, 0.97)
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.03),
+
+        0 12px 28px
+        rgba(0, 0, 0, 0.19);
+
+    overflow: hidden;
 }
 
 .measurement-chart-svg {
     display: block;
+
     width: 100%;
     height: auto;
 }
 
+
+/* Главные оси */
+
 .chart-axis {
-    stroke: #AAABB8;
+    stroke:
+        rgba(240, 236, 226, 0.25);
+
     stroke-width: 1;
 }
 
+
+/* Горизонтальные линии */
+
 .chart-grid-line {
-    stroke: #AAABB8;
-    stroke-width: 0.5;
-    opacity: 0.25;
+    stroke:
+        rgba(240, 236, 226, 0.14);
+
+    stroke-width: 0.6;
 }
+
+
+/* Золотая линия прогресса */
 
 .chart-progress-line {
     fill: none;
-    stroke: #2E9CCA;
-    stroke-width: 3;
+
+    stroke:
+        var(--gold);
+
+    stroke-width: 2.5;
+
     stroke-linejoin: round;
     stroke-linecap: round;
 }
 
+
+/* Точки на графике */
+
 .chart-point {
-    fill: #2E9CCA;
+    fill:
+        var(--gold-light);
+
+    stroke:
+        rgba(8, 29, 19, 0.95);
+
+    stroke-width: 2;
 }
+
+
+/* Подписи осей */
 
 .chart-label {
-    fill: #AAABB8;
-    font-size: 10px;
+    fill:
+        rgba(240, 236, 226, 0.48);
+
+    font-size: 9px;
 }
 
+
+/* кг / см и т.д. */
+
 .chart-unit {
-    fill: #AAABB8;
-    font-size: 10px;
+    fill:
+        var(--gold);
+
+    font-size: 9px;
+    font-weight: 600;
 }

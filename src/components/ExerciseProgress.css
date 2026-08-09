@@ -2,35 +2,377 @@
     width: 100%;
 }
 
-.exercise-progress-history {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+
+/* ---------- Назад ---------- */
+
+.progress-back-button {
+    margin:
+        2px
+        0
+        16px;
+
+    padding:
+        7px
+        0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--gold);
+
+    font-size: 13px;
+
+    cursor: pointer;
 }
 
-.exercise-progress-workout {
-    padding: 12px;
 
-    background: #464866;
-    border-radius: 10px;
+/* ---------- Верх экрана ---------- */
+
+.progress-header {
+    margin-bottom: 23px;
 }
 
-.exercise-progress-date {
+.progress-eyebrow {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--gold);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.11em;
+
+    text-transform: uppercase;
+}
+
+.progress-header h2 {
+    margin: 0;
+
+    color: var(--gold-light);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 31px;
+    font-weight: 500;
+
+    line-height: 1.12;
+}
+
+.progress-header p {
+    max-width: 260px;
+
+    margin:
+        8px
+        0
+        0;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+
+/* ---------- Общая секция ---------- */
+
+.progress-section {
+    margin-bottom: 18px;
+}
+
+.progress-section-header {
     display: flex;
+
+    align-items: flex-end;
     justify-content: space-between;
+
+    gap: 12px;
 
     margin-bottom: 10px;
 }
 
+.progress-section-label {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color:
+        rgba(208, 167, 91, 0.68);
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 0.10em;
+
+    text-transform: uppercase;
+}
+
+.progress-section-header h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-family:
+        var(--font-display);
+
+    font-size: 21px;
+    font-weight: 500;
+}
+
+
+/* Маленький кг справа от заголовка */
+
+.progress-unit-badge,
+.progress-history-count {
+    min-width: 31px;
+    height: 31px;
+
+    padding:
+        0
+        8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius: 999px;
+
+    background:
+        rgba(208, 167, 91, 0.05);
+
+    color: var(--gold);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+/* ---------- История ---------- */
+
+.exercise-progress-history {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+/* Одна тренировка */
+
+.exercise-progress-workout {
+    padding: 14px;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-large);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(11, 37, 25, 0.92),
+            rgba(5, 20, 13, 0.97)
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.03),
+
+        0 10px 26px
+        rgba(0, 0, 0, 0.18);
+}
+
+
+/* Дата + лучший вес */
+
+.exercise-progress-date {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 12px;
+    padding-bottom: 11px;
+
+    border-bottom:
+        1px solid
+        var(--soft-line);
+}
+
+.exercise-progress-date > div:first-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.history-date-label {
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    letter-spacing: 0.07em;
+
+    text-transform: uppercase;
+}
+
+.exercise-progress-date strong {
+    color: var(--text);
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* Максимальный вес */
+
+.history-max-weight {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 1px;
+}
+
+.history-max-weight > span {
+    color: var(--text-muted);
+
+    font-size: 9px;
+}
+
+.history-max-weight strong {
+    color: var(--gold-light);
+
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.history-max-weight small {
+    margin-left: 3px;
+
+    color: var(--gold);
+
+    font-size: 9px;
+    font-weight: 500;
+}
+
+
+/* ---------- Подходы ---------- */
+
 .exercise-progress-sets {
     display: flex;
     flex-direction: column;
+
     gap: 6px;
 }
 
 .exercise-progress-set {
     display: grid;
-    grid-template-columns: 30px 1fr 1fr;
+
+    grid-template-columns:
+        31px
+        1fr
+        1fr;
+
+    align-items: center;
 
     gap: 8px;
+
+    min-height: 42px;
+
+    padding:
+        5px
+        8px;
+
+    border:
+        1px solid
+        rgba(240, 236, 226, 0.055);
+
+    border-radius:
+        var(--radius-small);
+
+    background:
+        rgba(255, 255, 255, 0.018);
+}
+
+
+/* Номер подхода */
+
+.history-set-number {
+    width: 27px;
+    height: 27px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        var(--gold-line);
+
+    border-radius: 50%;
+
+    color: var(--gold);
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* Вес / повторения */
+
+.history-set-value {
+    display: flex;
+
+    align-items: baseline;
+    justify-content: center;
+
+    gap: 4px;
+}
+
+.history-set-value strong {
+    color: var(--text);
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.history-set-value span {
+    color: var(--text-muted);
+
+    font-size: 9px;
+}
+
+
+/* ---------- Пустое состояние ---------- */
+
+.progress-empty {
+    padding:
+        24px
+        15px;
+
+    border:
+        1px dashed
+        var(--gold-line);
+
+    border-radius:
+        var(--radius-medium);
+
+    color: var(--text-muted);
+
+    text-align: center;
+
+    font-size: 12px;
 }

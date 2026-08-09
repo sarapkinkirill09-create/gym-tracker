@@ -310,73 +310,116 @@ function ExerciseCatalog({
                     Новое упражнение
                 </h2>
 
-                <input
-                    type="text"
-                    placeholder="Название упражнения"
-                    value={newExerciseName}
-                    onFocus={(event) =>
-                        event.target.select()
-                    }
-                    onChange={(event) => {
-                        setNewExerciseName(
-                            event.target.value
-                        )
+                <div className="create-exercise-card">
 
-                        setNewExerciseError('')
-                    }}
-                />
+                    <div className="create-exercise-field">
+                        <label>
+                            Название
+                        </label>
 
-                <input
-                    type="text"
-                    placeholder="Группа мышц"
-                    value={newExerciseGroup}
-                    onFocus={(event) =>
-                        event.target.select()
-                    }
-                    onChange={(event) => {
-                        setNewExerciseGroup(
-                            event.target.value
-                        )
+                        <input
+                            type="text"
+                            placeholder="Например: Тяга Хаммера"
+                            value={newExerciseName}
+                            onFocus={(event) =>
+                                event.target.select()
+                            }
+                            onChange={(event) => {
+                                setNewExerciseName(
+                                    event.target.value
+                                )
 
-                        setNewExerciseError('')
-                    }}
-                />
+                                setNewExerciseError('')
+                            }}
+                        />
+                    </div>
 
-                <input
-                    type="text"
-                    placeholder="Доп. группы через запятую"
-                    value={newExerciseSecondaryGroups}
-                    onFocus={(event) =>
-                        event.target.select()
-                    }
-                    onChange={(event) => {
-                        setNewExerciseSecondaryGroups(
-                            event.target.value
-                        )
 
-                        setNewExerciseError('')
-                    }}
-                />
+                    <div className="create-exercise-field">
+                        <label>
+                            Основная группа
+                        </label>
 
-                {newExerciseError && (
-                    <p>
-                        {newExerciseError}
-                    </p>
-                )}
+                        <input
+                            type="text"
+                            placeholder="Например: Спина"
+                            value={newExerciseGroup}
+                            onFocus={(event) =>
+                                event.target.select()
+                            }
+                            onChange={(event) => {
+                                setNewExerciseGroup(
+                                    event.target.value
+                                )
 
-                <button
-                    type="button"
-                    onClick={createExercise}
-                >
-                    Создать упражнение
-                </button>
+                                setNewExerciseError('')
+                            }}
+                        />
 
-                <button
-                    type="button"
-                    onClick={goBack}
-                >
-                    Отмена
-                </button>
+                        <span className="create-exercise-hint">
+                            Упражнение будет находиться
+                            в этой категории.
+                        </span>
+                    </div>
+
+
+                    <div className="create-exercise-field">
+                        <label>
+                            Дополнительные группы
+                        </label>
+
+                        <input
+                            type="text"
+                            placeholder="Плечи, руки..."
+                            value={newExerciseSecondaryGroups}
+                            onFocus={(event) =>
+                                event.target.select()
+                            }
+                            onChange={(event) => {
+                                setNewExerciseSecondaryGroups(
+                                    event.target.value
+                                )
+
+                                setNewExerciseError('')
+                            }}
+                        />
+
+                        <span className="create-exercise-hint">
+                            Необязательно. Несколько групп
+                            указываются через запятую.
+                        </span>
+                    </div>
+
+
+                    {newExerciseError && (
+                        <div className="create-exercise-error">
+                            {newExerciseError}
+                        </div>
+                    )}
+
+
+                    <div className="create-exercise-actions">
+
+                        <button
+                            type="button"
+                            className="create-exercise-submit"
+                            onClick={createExercise}
+                        >
+                            <span>+</span>
+                            Создать упражнение
+                        </button>
+
+                        <button
+                            type="button"
+                            className="create-exercise-cancel"
+                            onClick={goBack}
+                        >
+                            Отмена
+                        </button>
+
+                    </div>
+
+                </div>
 
             </div>
         )
