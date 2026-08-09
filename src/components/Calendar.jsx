@@ -3,7 +3,8 @@ import './Calendar.css'
 
 function Calendar({
     selectedDate,
-    setSelectedDate
+    setSelectedDate,
+    workouts
 }) {
     const dayNames = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
 
@@ -51,6 +52,28 @@ function Calendar({
             date
         }
     })
+
+    function getDateKey(date) {
+        return date.toLocaleDateString('sv-SE')
+    }
+
+    function hasWorkoutPlan(date) {
+        const dateKey = getDateKey(date)
+
+        const workout = workouts[dateKey]
+
+        if (!workout) {
+            return false
+        }
+
+        const hasName =
+            workout.name?.trim() !== ''
+
+        const hasExercises =
+            workout.exercises?.length > 0
+
+        return hasName || hasExercises
+    }
 
     function changeWeek(direction) {
         const newDate = new Date(selectedDate)
@@ -118,28 +141,44 @@ function Calendar({
                 </button>
 
                 <div className="calendar">
-                    {week.map((day) => (
-                        <button
-                            type="button"
-                            key={day.date.toDateString()}
-                            onClick={() =>
-                                setSelectedDate(day.date)
-                            }
-                        >
-                            <span>
-                                {day.name}
-                            </span>
-
-                            <span>
-                                {day.date.getDate()}
-                            </span>
-
-                            {selectedDate.toDateString() ===
+                    {week.map((day) => {
+                        const isSelected =
+                            selectedDate.toDateString() ===
                             day.date.toDateString()
-                                ? '●'
-                                : ''}
-                        </button>
-                    ))}
+
+                        const hasPlan =
+                            hasWorkoutPlan(day.date)
+
+                        let dayClassName =
+                            'calendar-day'
+
+                        if (isSelected) {
+                            dayClassName += ' selected'
+                        } else if (hasPlan) {
+                            dayClassName += ' planned'
+                        }
+
+                        return (
+                            <button
+                                type="button"
+                                key={day.date.toDateString()}
+                                className={dayClassName}
+                                onClick={() =>
+                                    setSelectedDate(day.date)
+                                }
+                            >
+                                <span className="calendar-day-name">
+                                    {day.name}
+                                </span>
+
+                                <span className="calendar-day-number">
+                                    {day.date.getDate()}
+                                </span>
+
+                                <span className="calendar-day-dot" />
+                            </button>
+                        )
+                    })}
                 </div>
 
                 <button

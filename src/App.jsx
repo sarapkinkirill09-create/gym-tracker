@@ -444,6 +444,7 @@ function App() {
                     <Calendar
                         selectedDate={selectedDate}
                         setSelectedDate={setSelectedDate}
+                        workouts={workouts}
                     />
 
                     <WorkoutHeader
