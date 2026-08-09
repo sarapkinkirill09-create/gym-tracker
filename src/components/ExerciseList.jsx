@@ -151,11 +151,17 @@ function ExerciseList({
             )}
 
             <button
-                className="add-exercise-button"
                 type="button"
+                className="add-exercise-button"
                 onClick={onAddExercise}
             >
-                + Добавить упражнение
+                <span className="add-exercise-icon">
+                    +
+                </span>
+
+                <span>
+                    Добавить упражнение
+                </span>
             </button>
         </>
     )

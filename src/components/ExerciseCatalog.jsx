@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import exercises from '../data/exercises'
+import './ExerciseCatalog.css'
 
 import {
     cleanText,
@@ -305,7 +306,7 @@ function ExerciseCatalog({
                     </button>
                 )}
 
-                <h2>
+                <h2 className="catalog-title">
                     Новое упражнение
                 </h2>
 
@@ -393,7 +394,7 @@ function ExerciseCatalog({
                 </button>
             )}
 
-            <h2>
+            <h2 className="catalog-title">
                 {mode === 'select'
                     ? 'Добавить упражнение'
                     : 'Упражнения'
@@ -401,6 +402,7 @@ function ExerciseCatalog({
             </h2>
 
             <input
+                className="catalog-search"
                 type="text"
                 placeholder="Поиск упражнения..."
                 value={searchQuery}
@@ -416,6 +418,7 @@ function ExerciseCatalog({
 
             <button
                 type="button"
+                className="catalog-create-button"
                 onClick={() => {
                     setIsAddingExercise(true)
                     setNewExerciseError('')
@@ -439,6 +442,7 @@ function ExerciseCatalog({
                         <button
                             key={group}
                             type="button"
+                            className="group-button"
                             onClick={() => {
                                 setSelectedGroup(
                                     group
@@ -458,7 +462,7 @@ function ExerciseCatalog({
                 <div className="exercise-list">
 
                     {selectedGroup !== null && (
-                        <h3>
+                        <h3 className="catalog-group-title">
                             {selectedGroup}
                         </h3>
                     )}
@@ -471,6 +475,7 @@ function ExerciseCatalog({
                     >
                         <button
                             type="button"
+                            className="exercise-catalog-main-button"
                             onClick={() =>
                                 handleExerciseClick(
                                     exercise
@@ -483,6 +488,7 @@ function ExerciseCatalog({
                         {mode === 'browse' && (
                             <button
                                 type="button"
+                                className="exercise-catalog-delete-button"
                                 onClick={() =>
                                     onDeleteCatalogExercise(
                                         exercise
