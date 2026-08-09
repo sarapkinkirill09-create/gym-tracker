@@ -32,6 +32,9 @@ function ExerciseCatalog({
     const [newExerciseGroup, setNewExerciseGroup] =
         useState('')
 
+    const [newExerciseSecondaryGroups,setNewExerciseSecondaryGroups] = 
+        useState('')
+
     const [newExerciseError, setNewExerciseError] =
         useState('')
 
@@ -52,30 +55,43 @@ function ExerciseCatalog({
 
     const groupMap = new Map()
 
-allExercises.forEach((exercise) => {
-    const groupKey =
-        normalizeText(exercise.muscleGroup)
+    allExercises.forEach((exercise) => {
+        const exerciseGroups = [
+            exercise.muscleGroup,
+            ...(exercise.secondaryMuscleGroups || [])
+        ]
 
-    if (!groupMap.has(groupKey)) {
-        groupMap.set(
-            groupKey,
-            capitalizeText(
-                exercise.muscleGroup
-            )
-        )
-    }
-})
+        exerciseGroups.forEach((group) => {
+            const groupKey =
+                normalizeText(group)
 
-const groups = [
-    ...groupMap.values()
-]
+            if (!groupMap.has(groupKey)) {
+                groupMap.set(
+                    groupKey,
+                    capitalizeText(group)
+                )
+            }
+        })
+    })
+
+    const groups = [
+        ...groupMap.values()
+    ]
 
     const filteredExercises =
         allExercises.filter((exercise) => {
+            const exerciseGroups = [
+                exercise.muscleGroup,
+                ...(exercise.secondaryMuscleGroups || [])
+            ]
+
             const correctGroup =
                 selectedGroup === null ||
-                normalizeText(exercise.muscleGroup) ===
-                    normalizeText(selectedGroup)
+                exerciseGroups.some(
+                    (group) =>
+                        normalizeText(group) ===
+                        normalizeText(selectedGroup)
+                )
 
             const correctSearch =
     normalizeText(exercise.name)
@@ -94,6 +110,7 @@ const groups = [
             setIsAddingExercise(false)
             setNewExerciseName('')
             setNewExerciseGroup('')
+            setNewExerciseSecondaryGroups('')
             setNewExerciseError('')
             return
         }
@@ -148,6 +165,16 @@ const groups = [
             return
         }
 
+        const enteredSecondaryGroups =
+            newExerciseSecondaryGroups
+                .split(',')
+                .map((group) =>
+                    cleanText(group)
+                )
+                .filter((group) =>
+                    group !== ''
+                )
+
         const existingGroup =
             groups.find(
                 (group) =>
@@ -159,10 +186,60 @@ const groups = [
             existingGroup ||
             capitalizeText(enteredGroup)
             
+        const secondaryMuscleGroups = []
+
+            enteredSecondaryGroups.forEach(
+                (enteredSecondaryGroup) => {
+
+                    const normalizedSecondary =
+                        normalizeText(
+                            enteredSecondaryGroup
+                        )
+
+                    // Основную группу второй раз не добавляем.
+                    if (
+                        normalizedSecondary ===
+                        normalizeText(muscleGroup)
+                    ) {
+                        return
+                    }
+
+                    // Повтор внутри дополнительных групп.
+                    const alreadyAdded =
+                        secondaryMuscleGroups.some(
+                            (group) =>
+                                normalizeText(group) ===
+                                normalizedSecondary
+                        )
+
+                    if (alreadyAdded) {
+                        return
+                    }
+
+                    // Проверяем, есть ли уже такая группа
+                    // в нашем каталоге.
+                    const existingSecondaryGroup =
+                        groups.find(
+                            (group) =>
+                                normalizeText(group) ===
+                                normalizedSecondary
+                        )
+
+                    secondaryMuscleGroups.push(
+                        existingSecondaryGroup ||
+                        capitalizeText(
+                            enteredSecondaryGroup
+                        )
+                    )
+                }
+            )
+   
         const newExercise = {
             id: `custom-${Date.now()}`,
             name: name,
-            muscleGroup: muscleGroup
+            muscleGroup: muscleGroup,
+            secondaryMuscleGroups:
+                secondaryMuscleGroups
         }
 
         setCustomExercises(
@@ -175,6 +252,7 @@ const groups = [
         setNewExerciseName('')
         setNewExerciseGroup('')
         setNewExerciseError('')
+        setNewExerciseSecondaryGroups('')
         setIsAddingExercise(false)
 
         if (mode === 'select') {
@@ -256,6 +334,22 @@ const groups = [
                     }
                     onChange={(event) => {
                         setNewExerciseGroup(
+                            event.target.value
+                        )
+
+                        setNewExerciseError('')
+                    }}
+                />
+
+                <input
+                    type="text"
+                    placeholder="Доп. группы через запятую"
+                    value={newExerciseSecondaryGroups}
+                    onFocus={(event) =>
+                        event.target.select()
+                    }
+                    onChange={(event) => {
+                        setNewExerciseSecondaryGroups(
                             event.target.value
                         )
 

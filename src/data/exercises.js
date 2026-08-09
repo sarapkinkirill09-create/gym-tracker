@@ -13,6 +13,12 @@ const exercises = [
         id: 3,
         name: 'Сгибание ног в тренажере',
         muscleGroup: 'Ноги'
+    },
+    {
+        id: 3,
+        name: 'Обратная бабочка',
+        muscleGroup: 'Плечи',
+        secondaryMuscleGroups: ['Спина']
     }
 ]
 

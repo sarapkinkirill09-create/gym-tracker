@@ -31,6 +31,9 @@ function App() {
     const [selectedExerciseId, setSelectedExerciseId] =
         useState(null)
 
+    const [selectedCatalogGroup, setSelectedCatalogGroup] =
+        useState(null)
+
     const [exerciseProgressBackScreen, setExerciseProgressBackScreen] =
         useState('workout')
 
@@ -458,6 +461,7 @@ function App() {
 
                         onAddExercise={() => {
                             setCatalogMode('select')
+                            setSelectedCatalogGroup(null)
                             setCurrentScreen('exercises')
                         }}
 
@@ -480,7 +484,7 @@ function App() {
                     />
 
                     <BottomMenu
-                    
+
                         onOpenExercises={() => {
                             setCatalogMode('browse')
 
