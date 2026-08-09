@@ -6,6 +6,7 @@ function ExerciseList({
     workouts,
     dateKey,
     customExercises,
+    deletedExerciseIds,
     onAddExercise,
     onAddSet,
     onUpdateSet,
@@ -13,10 +14,15 @@ function ExerciseList({
     onDeleteExercise,
     onOpenProgress
 }) {
-        const allExercises = [
+    const allExercises = [
         ...exercises,
         ...customExercises
-    ]
+    ].filter(
+        (exercise) =>
+            !deletedExerciseIds.includes(
+                exercise.id
+            )
+    )
 
     function getPreviousPerformance(exerciseId) {
         const previousDates = Object.keys(workouts)

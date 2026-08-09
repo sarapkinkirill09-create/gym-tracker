@@ -31,6 +31,9 @@ function App() {
     const [selectedExerciseId, setSelectedExerciseId] =
         useState(null)
 
+    const [exerciseProgressBackScreen, setExerciseProgressBackScreen] =
+        useState('workout')
+
     const [customExercises, setCustomExercises] = useState(() => {
         const savedCustomExercises =
             localStorage.getItem('gymTrackerCustomExercises')
@@ -45,6 +48,26 @@ function App() {
             return []
         }
     })
+
+    const [deletedExerciseIds, setDeletedExerciseIds] =
+        useState(() => {
+            const savedDeletedExerciseIds =
+                localStorage.getItem(
+                    'gymTrackerDeletedExerciseIds'
+                )
+
+            if (!savedDeletedExerciseIds) {
+                return []
+            }
+
+            try {
+                return JSON.parse(
+                    savedDeletedExerciseIds
+                )
+            } catch {
+                return []
+            }
+        })
 
     const [measurements, setMeasurements] = useState(() => {
         const savedMeasurements =
@@ -108,6 +131,13 @@ function App() {
             JSON.stringify(customExercises)
         )
     }, [customExercises])
+
+    useEffect(() => {
+        localStorage.setItem(
+            'gymTrackerDeletedExerciseIds',
+            JSON.stringify(deletedExerciseIds)
+        )
+    }, [deletedExerciseIds])
 
     const dateKey = selectedDate.toLocaleDateString('sv-SE')
 
@@ -338,6 +368,70 @@ function App() {
         })
     }
 
+    function deleteExerciseFromCatalog(exercise) {
+        const shouldDelete = window.confirm(
+            `Удалить «${exercise.name}»?\n\n` +
+            'Упражнение будет удалено из каталога, ' +
+            'всех тренировок и истории прогресса.'
+        )
+
+        if (!shouldDelete) {
+            return
+        }
+
+        const isCustomExercise =
+            typeof exercise.id === 'string' &&
+            exercise.id.startsWith('custom-')
+
+        if (isCustomExercise) {
+            setCustomExercises(
+                (previousExercises) =>
+                    previousExercises.filter(
+                        (item) =>
+                            item.id !== exercise.id
+                    )
+            )
+        } else {
+            setDeletedExerciseIds(
+                (previousIds) => {
+                    if (
+                        previousIds.includes(
+                            exercise.id
+                        )
+                    ) {
+                        return previousIds
+                    }
+
+                    return [
+                        ...previousIds,
+                        exercise.id
+                    ]
+                }
+            )
+        }
+
+        setWorkouts((previousWorkouts) => {
+            const updatedWorkouts = {}
+
+            Object.entries(previousWorkouts)
+                .forEach(([date, workout]) => {
+
+                    updatedWorkouts[date] = {
+                        ...workout,
+
+                        exercises:
+                            workout.exercises.filter(
+                                (workoutExercise) =>
+                                    workoutExercise.exerciseId !==
+                                    exercise.id
+                            )
+                    }
+                })
+
+            return updatedWorkouts
+        })
+    }
+
     return (
         <div className="app">
             {currentScreen === 'workout' ? (
@@ -360,6 +454,7 @@ function App() {
                         workouts={workouts}
                         dateKey={dateKey}
                         customExercises={customExercises}
+                        deletedExerciseIds={deletedExerciseIds}
 
                         onAddExercise={() => {
                             setCatalogMode('select')
@@ -373,13 +468,24 @@ function App() {
 
                         onOpenProgress={(exerciseId) => {
                             setSelectedExerciseId(exerciseId)
-                            setCurrentScreen('exerciseProgress')
+
+                            setExerciseProgressBackScreen(
+                                'workout'
+                            )
+
+                            setCurrentScreen(
+                                'exerciseProgress'
+                            )
                         }}
                     />
 
                     <BottomMenu
+                    
                         onOpenExercises={() => {
                             setCatalogMode('browse')
+
+                            setSelectedCatalogGroup(null)
+
                             setCurrentScreen('exercises')
                         }}
 
@@ -389,6 +495,7 @@ function App() {
                     />
                 </>
             ) : currentScreen === 'exercises' ? (
+
                 <ExerciseCatalog
                     onBack={() =>
                         setCurrentScreen('workout')
@@ -397,10 +504,21 @@ function App() {
                     onSelectExercise={addExerciseToWorkout}
                     customExercises={customExercises}
                     setCustomExercises={setCustomExercises}
+                    deletedExerciseIds={deletedExerciseIds}
+                    onDeleteCatalogExercise={deleteExerciseFromCatalog}
+                    selectedGroup={selectedCatalogGroup}
+                    setSelectedGroup={setSelectedCatalogGroup}
 
                     onOpenProgress={(exerciseId) => {
                         setSelectedExerciseId(exerciseId)
-                        setCurrentScreen('exerciseProgress')
+
+                        setExerciseProgressBackScreen(
+                            'exercises'
+                        )
+
+                        setCurrentScreen(
+                            'exerciseProgress'
+                        )
                     }}
                 />
             ) : currentScreen === 'measurements' ? (
@@ -416,9 +534,12 @@ function App() {
                     exerciseId={selectedExerciseId}
                     workouts={workouts}
                     customExercises={customExercises}
+                    deletedExerciseIds={deletedExerciseIds}
 
                     onBack={() =>
-                        setCurrentScreen('workout')
+                        setCurrentScreen(
+                            exerciseProgressBackScreen
+                        )
                     }
                 />
              )}

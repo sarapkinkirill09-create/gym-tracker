@@ -13,10 +13,12 @@ function ExerciseCatalog({
     onSelectExercise,
     onOpenProgress,
     customExercises,
-    setCustomExercises
+    setCustomExercises,
+    deletedExerciseIds,
+    onDeleteCatalogExercise,
+    selectedGroup,
+    setSelectedGroup
 }) {
-    const [selectedGroup, setSelectedGroup] =
-        useState(null)
 
     const [searchQuery, setSearchQuery] =
         useState('')
@@ -41,7 +43,12 @@ function ExerciseCatalog({
     const allExercises = [
         ...exercises,
         ...customExercises
-    ]
+    ].filter(
+        (exercise) =>
+            !deletedExerciseIds.includes(
+                exercise.id
+            )
+    )
 
     const groupMap = new Map()
 
@@ -362,21 +369,38 @@ const groups = [
                         </h3>
                     )}
 
-                    {filteredExercises.map(
-                        (exercise) => (
+            {filteredExercises.map(
+                (exercise) => (
+                    <div
+                        className="exercise-catalog-row"
+                        key={exercise.id}
+                    >
+                        <button
+                            type="button"
+                            onClick={() =>
+                                handleExerciseClick(
+                                    exercise
+                                )
+                            }
+                        >
+                            {exercise.name}
+                        </button>
+
+                        {mode === 'browse' && (
                             <button
-                                key={exercise.id}
                                 type="button"
                                 onClick={() =>
-                                    handleExerciseClick(
+                                    onDeleteCatalogExercise(
                                         exercise
                                     )
                                 }
                             >
-                                {exercise.name}
+                                ×
                             </button>
-                        )
-                    )}
+                        )}
+                    </div>
+                )
+            )}
 
                     {filteredExercises.length === 0 && (
                         <p>

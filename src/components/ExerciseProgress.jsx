@@ -6,12 +6,19 @@ function ExerciseProgress({
     exerciseId,
     workouts,
     customExercises,
+    deletedExerciseIds,
     onBack
 }) {
+
     const allExercises = [
         ...exercises,
         ...customExercises
-]
+    ].filter(
+        (exercise) =>
+            !deletedExerciseIds.includes(
+                exercise.id
+            )
+    )
 
     const exercise = allExercises.find(
     (item) =>
