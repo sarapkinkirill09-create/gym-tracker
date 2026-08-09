@@ -191,9 +191,19 @@ function Calendar({
             </div>
 
             {isMonthPickerOpen && (
-                <div className="month-picker-overlay">
+                <div
+                    className="month-picker-overlay"
+                    onClick={() =>
+                        setIsMonthPickerOpen(false)
+                    }
+                >
 
-                    <div className="month-picker">
+                    <div
+                        className="month-picker"
+                        onClick={(event) =>
+                            event.stopPropagation()
+                        }
+                    >
 
                         <div className="year-navigation">
 
@@ -227,17 +237,31 @@ function Calendar({
 
                         <div className="month-grid">
                             {monthNames.map(
-                                (month, index) => (
-                                    <button
-                                        type="button"
-                                        key={month}
-                                        onClick={() =>
-                                            selectMonth(index)
-                                        }
-                                    >
-                                        {month}
-                                    </button>
-                                )
+                                (month, index) => {
+
+                                    const isSelectedMonth =
+                                        pickerYear ===
+                                            selectedDate.getFullYear() &&
+                                        index ===
+                                            selectedDate.getMonth()
+
+                                    return (
+                                        <button
+                                            type="button"
+                                            key={month}
+                                            className={
+                                                isSelectedMonth
+                                                    ? 'selected-month'
+                                                    : ''
+                                            }
+                                            onClick={() =>
+                                                selectMonth(index)
+                                            }
+                                        >
+                                            {month}
+                                        </button>
+                                    )
+                                }
                             )}
                         </div>
 

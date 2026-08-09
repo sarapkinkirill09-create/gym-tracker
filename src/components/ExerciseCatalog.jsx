@@ -39,10 +39,15 @@ function ExerciseCatalog({
     const [newExerciseError, setNewExerciseError] =
         useState('')
 
-    const telegram = window.Telegram?.WebApp
+    const telegram =
+        window.Telegram?.WebApp
 
     const isTelegramMiniApp =
-        Boolean(telegram?.initData)
+        Boolean(
+            telegram &&
+            telegram.platform &&
+            telegram.platform !== 'unknown'
+        )
 
     const allExercises = [
         ...exercises,
@@ -265,7 +270,10 @@ function ExerciseCatalog({
         const backButton =
             telegram?.BackButton
 
-        if (!backButton) {
+        if (
+            !isTelegramMiniApp ||
+            !backButton
+        ) {
             return
         }
 
@@ -290,7 +298,8 @@ function ExerciseCatalog({
         selectedGroup,
         isAddingExercise,
         onBack,
-        telegram
+        telegram,
+        isTelegramMiniApp
     ])
 
     if (isAddingExercise) {
