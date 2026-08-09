@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import './Calendar.css'
+import {
+    hapticSelection
+} from '../utils/haptics'
 
 function Calendar({
     selectedDate,
@@ -163,9 +166,10 @@ function Calendar({
                                 type="button"
                                 key={day.date.toDateString()}
                                 className={dayClassName}
-                                onClick={() =>
+                                onClick={() => {
                                     setSelectedDate(day.date)
-                                }
+                                    hapticSelection()
+                                }}
                             >
                                 <span className="calendar-day-name">
                                     {day.name}
