@@ -2,6 +2,12 @@ import { useState } from 'react'
 import MeasurementChart from './MeasurementChart'
 import './Measurements.css'
 
+import {
+    cleanText,
+    normalizeText,
+    capitalizeText
+} from '../utils/text'
+
 function Measurements({
     onBack,
     measurements,
@@ -28,6 +34,9 @@ function Measurements({
         useState('')
 
     const [newMeasurementUnit, setNewMeasurementUnit] =
+        useState('')
+    
+    const [newMeasurementError, setNewMeasurementError] =
         useState('')
 
     function saveMeasurement() {
@@ -157,28 +166,58 @@ function Measurements({
     }
 
     function addCustomMeasurement() {
-        const name = newMeasurementName.trim()
-        const unit = newMeasurementUnit.trim()
+        const name =
+            cleanText(newMeasurementName)
 
-        if (name === '' || unit === '') {
+        const unit =
+            cleanText(newMeasurementUnit)
+
+        if (
+            name === '' ||
+            unit === ''
+        ) {
+            setNewMeasurementError(
+                'Введите название и единицу измерения'
+            )
+
+            return
+        }
+
+        const alreadyExists =
+            Object.values(measurements).some(
+                (measurement) =>
+                    normalizeText(
+                        measurement.name
+                    ) ===
+                    normalizeText(name)
+            )
+
+        if (alreadyExists) {
+            setNewMeasurementError(
+                'Измерение с таким названием уже существует'
+            )
+
             return
         }
 
         const measurementId =
             `custom-${Date.now()}`
 
-        setMeasurements((previousMeasurements) => ({
-            ...previousMeasurements,
+        setMeasurements(
+            (previousMeasurements) => ({
+                ...previousMeasurements,
 
-            [measurementId]: {
-                name: name,
-                unit: unit,
-                history: []
-            }
-        }))
+                [measurementId]: {
+                    name: capitalizeText(name),
+                    unit: unit,
+                    history: []
+                }
+            })
+        )
 
         setNewMeasurementName('')
         setNewMeasurementUnit('')
+        setNewMeasurementError('')
         setIsAddingMeasurement(false)
     }
 

@@ -31,6 +31,21 @@ function App() {
     const [selectedExerciseId, setSelectedExerciseId] =
         useState(null)
 
+    const [customExercises, setCustomExercises] = useState(() => {
+        const savedCustomExercises =
+            localStorage.getItem('gymTrackerCustomExercises')
+
+        if (!savedCustomExercises) {
+            return []
+        }
+
+        try {
+            return JSON.parse(savedCustomExercises)
+        } catch {
+            return []
+        }
+    })
+
     const [measurements, setMeasurements] = useState(() => {
         const savedMeasurements =
             localStorage.getItem('gymTrackerMeasurements')
@@ -81,11 +96,18 @@ function App() {
     }, [workouts])
 
     useEffect(() => {
-    localStorage.setItem(
-        'gymTrackerMeasurements',
-        JSON.stringify(measurements)
+        localStorage.setItem(
+            'gymTrackerMeasurements',
+            JSON.stringify(measurements)
         )
     }, [measurements])
+
+    useEffect(() => {
+        localStorage.setItem(
+            'gymTrackerCustomExercises',
+            JSON.stringify(customExercises)
+        )
+    }, [customExercises])
 
     const dateKey = selectedDate.toLocaleDateString('sv-SE')
 
@@ -337,6 +359,7 @@ function App() {
                         workout={currentWorkout}
                         workouts={workouts}
                         dateKey={dateKey}
+                        customExercises={customExercises}
 
                         onAddExercise={() => {
                             setCatalogMode('select')
@@ -372,6 +395,13 @@ function App() {
                     }
                     mode={catalogMode}
                     onSelectExercise={addExerciseToWorkout}
+                    customExercises={customExercises}
+                    setCustomExercises={setCustomExercises}
+
+                    onOpenProgress={(exerciseId) => {
+                        setSelectedExerciseId(exerciseId)
+                        setCurrentScreen('exerciseProgress')
+                    }}
                 />
             ) : currentScreen === 'measurements' ? (
                 <Measurements
@@ -385,6 +415,8 @@ function App() {
                 <ExerciseProgress
                     exerciseId={selectedExerciseId}
                     workouts={workouts}
+                    customExercises={customExercises}
+
                     onBack={() =>
                         setCurrentScreen('workout')
                     }

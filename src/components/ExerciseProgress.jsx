@@ -5,10 +5,17 @@ import './ExerciseProgress.css'
 function ExerciseProgress({
     exerciseId,
     workouts,
+    customExercises,
     onBack
 }) {
-    const exercise = exercises.find(
-        (item) => item.id === exerciseId
+    const allExercises = [
+        ...exercises,
+        ...customExercises
+]
+
+    const exercise = allExercises.find(
+    (item) =>
+        item.id === exerciseId
     )
 
     if (!exercise) {
