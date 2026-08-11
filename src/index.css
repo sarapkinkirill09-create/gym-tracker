@@ -1,41 +1,130 @@
 :root {
-    /* Основной фон */
-    --bg-deep: #050d09;
-    --bg-green: #0a1d14;
-    --bg-green-light: #123222;
+    /*
+        ==========================
+        ОСНОВНЫЕ ЦВЕТА
+        ==========================
+    */
 
-    /* Карточки */
+    --bg-deep: #070708;
+
+    --bg-middle: #0d0e10;
+
+    --bg-soft: #141518;
+
+
+    /*
+        ==========================
+        ПОВЕРХНОСТИ
+        ==========================
+    */
+
     --surface:
-        rgba(8, 25, 17, 0.88);
+        rgba(20, 21, 23, 0.88);
+
+    --surface-soft:
+        rgba(255, 255, 255, 0.035);
 
     --surface-strong:
-        rgba(11, 32, 22, 0.96);
+        rgba(24, 25, 27, 0.96);
 
-    /* Золото */
-    --gold: #d0a75b;
-    --gold-light: #efd69b;
-    --gold-dark: #7c6035;
 
-    /* Текст */
-    --text: #f0ece2;
-    --text-muted: #9ca59e;
+    /*
+        ==========================
+        ТЕКСТ
+        ==========================
+    */
 
-    /* Линии */
-    --gold-line:
-        rgba(208, 167, 91, 0.34);
+    --text: #f4f4f2;
+
+    --text-soft: #d0d0d0;
+
+    --text-muted: #929297;
+
+    --text-faint: #646469;
+
+
+    /*
+        ==========================
+        ЛИНИИ
+        ==========================
+    */
 
     --soft-line:
-        rgba(240, 236, 226, 0.10);
+        rgba(255, 255, 255, 0.08);
 
-    /* Ошибки / удаление */
-    --danger: #d36b51;
+    --line:
+        rgba(255, 255, 255, 0.12);
 
-    /* Скругления */
-    --radius-small: 10px;
-    --radius-medium: 16px;
-    --radius-large: 22px;
+    --line-strong:
+        rgba(255, 255, 255, 0.18);
 
-    /* Шрифты */
+
+    /*
+        ==========================
+        СВЕТЛЫЕ ACTION-ЭЛЕМЕНТЫ
+        ==========================
+    */
+
+    --light-action: #f2f2f0;
+
+    --light-action-hover: #ffffff;
+
+    --light-action-text: #101012;
+
+
+    /*
+        ==========================
+        УДАЛЕНИЕ
+        ==========================
+    */
+
+    --danger: #d87878;
+
+    --danger-soft:
+        rgba(216, 120, 120, 0.10);
+
+    --danger-line:
+        rgba(216, 120, 120, 0.28);
+
+
+    /*
+        ==========================
+        СКРУГЛЕНИЯ
+        ==========================
+    */
+
+    --radius-small: 11px;
+
+    --radius-medium: 17px;
+
+    --radius-large: 24px;
+
+
+    /*
+        ==========================
+        ТЕНИ
+        ==========================
+    */
+
+    --shadow-soft:
+        0 10px 30px
+        rgba(0, 0, 0, 0.28);
+
+    --shadow-card:
+        0 18px 45px
+        rgba(0, 0, 0, 0.34);
+
+    --shadow-floating:
+        0 22px 60px
+        rgba(0, 0, 0, 0.46);
+
+
+    /*
+        ==========================
+        ШРИФТ
+        ==========================
+    */
+
     --font-ui:
         -apple-system,
         BlinkMacSystemFont,
@@ -43,144 +132,213 @@
         Arial,
         sans-serif;
 
+    /*
+        Старый дизайн использовал
+        отдельный serif-шрифт.
+
+        Пока оставляем переменную,
+        потому что её используют
+        другие CSS-файлы.
+
+        Но теперь она указывает
+        на обычный sans-serif.
+    */
     --font-display:
-        Georgia,
-        "Times New Roman",
-        serif;
+        var(--font-ui);
+
+
+    /*
+        ==========================
+        ВРЕМЕННАЯ СОВМЕСТИМОСТЬ
+        ==========================
+
+        Старые CSS-файлы пока ещё
+        обращаются к --gold и
+        --gold-line.
+
+        Мы их НЕ удаляем сразу,
+        иначе пришлось бы менять
+        весь проект одним огромным
+        патчем.
+
+        Сейчас они просто становятся
+        нейтральными серыми.
+    */
+
+    --gold: #c6c6c8;
+
+    --gold-light: #f2f2f0;
+
+    --gold-dark: #747479;
+
+    --gold-line:
+        rgba(255, 255, 255, 0.13);
 }
+
 
 * {
     box-sizing: border-box;
 }
 
+
 html,
 body,
 #root {
     margin: 0;
+
     width: 100%;
+
     min-height: 100%;
 }
 
+
 html {
-    background: var(--bg-deep);
+    background:
+        var(--bg-deep);
 }
+
 
 body {
     min-width: 320px;
+
     min-height: 100vh;
 
+
+    /*
+        Основной фон.
+
+        Не просто #000:
+        лёгкий графитовый градиент
+        даёт ту мягкость, которая
+        есть у нашего референса.
+    */
+
     background:
+
         radial-gradient(
-            ellipse at 12% 4%,
-            rgba(26, 82, 57, 0.72) 0%,
-            rgba(11, 38, 26, 0.35) 27%,
-            transparent 52%
+            ellipse
+            at 50% -10%,
+            rgba(255, 255, 255, 0.055)
+            0%,
+            rgba(255, 255, 255, 0.018)
+            28%,
+            transparent
+            55%
         ),
+
         radial-gradient(
-            ellipse at 90% 36%,
-            rgba(18, 65, 44, 0.55) 0%,
-            transparent 46%
+            ellipse
+            at 105% 48%,
+            rgba(255, 255, 255, 0.025)
+            0%,
+            transparent
+            42%
         ),
-        radial-gradient(
-            ellipse at 35% 90%,
-            rgba(17, 58, 40, 0.52) 0%,
-            transparent 45%
-        ),
+
         linear-gradient(
-            145deg,
-            #040a07 0%,
-            #081710 40%,
-            #0b2117 68%,
-            #040a07 100%
+            180deg,
+            #090a0b 0%,
+            #070708 42%,
+            #050506 100%
         );
 
-    background-attachment: fixed;
 
-    color: var(--text);
+    background-attachment:
+        fixed;
 
-    font-family: var(--font-ui);
 
-    -webkit-tap-highlight-color: transparent;
+    color:
+        var(--text);
 
-    overflow-x: hidden;
+
+    font-family:
+        var(--font-ui);
+
+
+    -webkit-tap-highlight-color:
+        transparent;
+
+
+    overflow-x:
+        hidden;
 }
 
+
 /*
-    Слой малахитового узора.
-    Он лежит поверх основного градиента,
-    но под приложением.
+    Очень лёгкое затемнение
+    по краям экрана.
+
+    Это не текстура.
+    Оно просто добавляет
+    немного глубины.
 */
+
 body::before {
     content: "";
 
     position: fixed;
+
     inset: 0;
 
     pointer-events: none;
 
+
     background:
-        repeating-radial-gradient(
-            ellipse at -10% 15%,
-            transparent 0px,
-            transparent 26px,
-            rgba(62, 126, 87, 0.09) 28px,
-            transparent 31px,
-            transparent 50px
-        ),
-        repeating-radial-gradient(
-            ellipse at 115% 70%,
-            transparent 0px,
-            transparent 36px,
-            rgba(74, 139, 99, 0.07) 38px,
-            transparent 41px,
-            transparent 68px
+        radial-gradient(
+            ellipse
+            at center,
+            transparent 25%,
+            rgba(0, 0, 0, 0.10) 72%,
+            rgba(0, 0, 0, 0.24) 100%
         );
 
-    opacity: 0.9;
 
     z-index: 0;
 }
+
 
 /*
-    Очень тонкие золотые прожилки.
+    Старые золотые прожилки
+    полностью убираем.
 */
+
 body::after {
-    content: "";
-
-    position: fixed;
-    inset: 0;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            116deg,
-            transparent 0%,
-            transparent 18%,
-            rgba(208, 167, 91, 0.06) 18.15%,
-            transparent 18.4%,
-            transparent 54%,
-            rgba(208, 167, 91, 0.045) 54.15%,
-            transparent 54.4%
-        );
-
-    z-index: 0;
+    content: none;
 }
+
 
 #root {
     position: relative;
+
     z-index: 1;
 }
+
 
 button,
 input {
     font: inherit;
 }
 
+
 button {
     color: inherit;
 }
 
+
 input {
     color: inherit;
+}
+
+
+/*
+    Более приятное выделение текста
+    в новом монохромном стиле.
+*/
+
+::selection {
+    background:
+        rgba(255, 255, 255, 0.20);
+
+    color:
+        #ffffff;
 }

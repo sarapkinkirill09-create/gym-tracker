@@ -1,3 +1,7 @@
+/* =========================================
+   ЗАТЕМНЕНИЕ
+   ========================================= */
+
 .confirm-overlay {
     position: fixed;
 
@@ -6,7 +10,9 @@
     z-index: 2000;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     padding:
@@ -40,88 +46,138 @@
         );
 
     background:
-        rgba(1, 7, 4, 0.80);
+        rgba(0, 0, 0, 0.76);
 
     backdrop-filter:
-        blur(11px);
+        blur(14px);
 
     -webkit-backdrop-filter:
-        blur(11px);
+        blur(14px);
 }
 
 
-/* ---------- Само окно ---------- */
+/* =========================================
+   ОКНО
+   ========================================= */
 
 .confirm-modal {
     width: 100%;
+
     max-width: 350px;
 
     padding:
-        21px
+        20px
         18px
         17px;
 
     border:
         1px solid
-        rgba(208, 167, 91, 0.46);
+        rgba(255, 255, 255, 0.11);
 
     border-radius:
-        24px;
+        var(--radius-large);
 
     background:
         radial-gradient(
-            circle at 85% 0%,
-            rgba(208, 167, 91, 0.08),
-            transparent 40%
+            ellipse
+            at 75% 0%,
+            rgba(255, 255, 255, 0.06),
+            transparent 48%
         ),
+
         linear-gradient(
             145deg,
-            rgba(12, 39, 27, 0.99),
-            rgba(4, 18, 12, 0.995)
+            rgba(29, 30, 32, 0.98),
+            rgba(10, 11, 13, 0.995)
         );
 
     box-shadow:
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.04),
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.05),
 
-        0 28px 70px
-        rgba(0, 0, 0, 0.55);
+        0
+        28px
+        70px
+        rgba(0, 0, 0, 0.58);
+
+    animation:
+        confirm-appear
+        0.18s
+        ease-out;
 }
 
 
-/* ---------- Значок ---------- */
+@keyframes confirm-appear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(7px)
+            scale(0.975);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================
+   ЗНАЧОК
+   ========================================= */
 
 .confirm-icon {
-    width: 39px;
-    height: 39px;
+    width: 38px;
 
-    margin-bottom: 15px;
+    height: 38px;
+
+    margin-bottom: 14px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     border:
         1px solid
-        rgba(211, 107, 81, 0.48);
+        var(--danger-line);
 
     border-radius: 50%;
 
     background:
-        rgba(211, 107, 81, 0.07);
+        var(--danger-soft);
 
     color:
         var(--danger);
 
     font-family:
-        var(--font-display);
+        var(--font-ui);
 
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 19px;
+
+    font-weight: 650;
+
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.025);
 }
 
 
-/* ---------- Текст ---------- */
+/* =========================================
+   ТЕКСТ
+   ========================================= */
 
 .confirm-eyebrow {
     display: block;
@@ -129,30 +185,38 @@
     margin-bottom: 5px;
 
     color:
-        rgba(208, 167, 91, 0.72);
+        var(--text-faint);
 
     font-size: 9px;
+
     font-weight: 600;
 
-    letter-spacing: 0.11em;
+    letter-spacing:
+        0.10em;
 
     text-transform: uppercase;
 }
+
 
 .confirm-content h2 {
     margin: 0;
 
     color:
-        var(--gold-light);
+        var(--text);
 
     font-family:
-        var(--font-display);
+        var(--font-ui);
 
-    font-size: 25px;
-    font-weight: 500;
+    font-size: 24px;
 
-    line-height: 1.15;
+    font-weight: 700;
+
+    line-height: 1.12;
+
+    letter-spacing:
+        -0.03em;
 }
+
 
 .confirm-content p {
     margin:
@@ -164,11 +228,14 @@
         var(--text-muted);
 
     font-size: 11px;
+
     line-height: 1.55;
 }
 
 
-/* ---------- Кнопки ---------- */
+/* =========================================
+   КНОПКИ
+   ========================================= */
 
 .confirm-actions {
     display: grid;
@@ -180,22 +247,25 @@
     gap: 8px;
 }
 
+
 .confirm-actions button {
     min-height: 46px;
 
     border-radius:
-        var(--radius-medium);
+        14px;
 
     font-size: 12px;
+
     font-weight: 600;
 
     cursor: pointer;
 
     transition:
-        transform 0.15s ease,
-        background 0.15s ease,
-        border-color 0.15s ease;
+        transform 0.14s ease,
+        background 0.14s ease,
+        border-color 0.14s ease;
 }
+
 
 .confirm-actions button:active {
     transform:
@@ -203,54 +273,64 @@
 }
 
 
-/* Отмена */
+/* =========================================
+   ОТМЕНА
+   ========================================= */
 
 .confirm-cancel-button {
     border:
         1px solid
-        var(--gold-line);
+        rgba(255, 255, 255, 0.10);
 
     background:
-        rgba(255, 255, 255, 0.025);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.055),
+            rgba(255, 255, 255, 0.018)
+        );
 
     color:
         var(--text-muted);
 }
 
+
 .confirm-cancel-button:active {
     background:
-        rgba(208, 167, 91, 0.07);
+        rgba(255, 255, 255, 0.085);
 
     color:
         var(--text);
 }
 
 
-/* Удалить */
+/* =========================================
+   УДАЛИТЬ
+   ========================================= */
 
 .confirm-delete-button {
     border:
         1px solid
-        rgba(211, 107, 81, 0.45);
+        var(--danger-line);
 
     background:
         linear-gradient(
-            135deg,
-            rgba(211, 107, 81, 0.16),
-            rgba(126, 55, 43, 0.10)
+            145deg,
+            rgba(216, 120, 120, 0.13),
+            rgba(216, 120, 120, 0.04)
         );
 
     color:
-        #e18a74;
+        var(--danger);
 }
+
 
 .confirm-delete-button:active {
     border-color:
-        rgba(211, 107, 81, 0.72);
+        rgba(216, 120, 120, 0.50);
 
     background:
-        rgba(211, 107, 81, 0.20);
+        rgba(216, 120, 120, 0.18);
 
     color:
-        #ef9c87;
+        #eb9292;
 }

@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
+import {
+    hapticLight,
+    hapticMedium,
+    hapticWarning,
+    hapticError
+} from './utils/haptics'
+
 import Calendar from './components/Calendar'
 import WorkoutHeader from './components/WorkoutHeader'
 import ExerciseList from './components/ExerciseList'
@@ -198,8 +205,10 @@ function App() {
         )
 
         if (alreadyAdded) {
-          setCurrentScreen('workout')
-         showToast('Упражнение уже добавлено')
+            hapticError()
+
+            setCurrentScreen('workout')
+            showToast('Упражнение уже добавлено')
          return
         }
 
@@ -220,6 +229,8 @@ function App() {
                 ]
             }
         })
+
+        hapticLight()
 
         setCurrentScreen('workout')
     }
@@ -294,6 +305,8 @@ function App() {
                 }
             }
         })
+
+        hapticLight()
     }
 
     function updateSet(
@@ -383,6 +396,7 @@ function App() {
     }
 
     function deleteExercise(exerciseId) {
+
         setWorkouts((previousWorkouts) => {
             const workout = previousWorkouts[dateKey]
 
@@ -404,6 +418,8 @@ function App() {
                 }
             }
         })
+
+        hapticMedium()
     }
 
     function deleteExerciseFromCatalog(exercise) {
@@ -496,7 +512,8 @@ function App() {
             return updatedWorkouts
         })
 
-
+        hapticWarning()
+        
         showToast(
             `«${exercise.name}» удалено`
         )

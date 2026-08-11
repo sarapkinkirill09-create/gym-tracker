@@ -1,97 +1,213 @@
+/* =========================================
+   КАРТОЧКА УПРАЖНЕНИЯ
+   ========================================= */
+
 .workout-exercise-card {
     position: relative;
 
     width: 100%;
 
     margin-bottom: 14px;
-    padding: 17px;
+
+    padding: 16px;
 
     border:
         1px solid
-        var(--gold-line);
+        rgba(255, 255, 255, 0.11);
 
     border-radius:
         var(--radius-large);
 
     background:
+        radial-gradient(
+            ellipse
+            at 25% 0%,
+            rgba(255, 255, 255, 0.055),
+            transparent 48%
+        ),
         linear-gradient(
             145deg,
-            rgba(11, 37, 25, 0.93),
-            rgba(5, 21, 14, 0.96)
+            rgba(28, 29, 31, 0.94),
+            rgba(13, 14, 16, 0.97)
         );
 
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
 
     box-shadow:
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.035),
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.055),
 
-        0 14px 34px
-        rgba(0, 0, 0, 0.22);
+        inset
+        0
+        -1px
+        0
+        rgba(0, 0, 0, 0.30),
+
+        0
+        16px
+        38px
+        rgba(0, 0, 0, 0.30);
 }
 
 
-/* ---------- Верх карточки ---------- */
+/*
+    Очень лёгкое внутреннее
+    освещение сверху.
+
+    Оно почти незаметно,
+    но карточка перестаёт
+    выглядеть плоской.
+*/
+
+.workout-exercise-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset:
+        1px
+        1px
+        auto
+        1px;
+
+    height: 42%;
+
+    border-radius:
+        calc(
+            var(--radius-large) - 1px
+        );
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.022),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   ВЕРХ КАРТОЧКИ
+   ========================================= */
 
 .workout-exercise-header {
+    position: relative;
+
     display: flex;
 
     align-items: flex-start;
+
     justify-content: space-between;
 
     gap: 12px;
+
+    z-index: 1;
 }
+
 
 .workout-exercise-title-block {
     min-width: 0;
+
     flex: 1;
 }
+
 
 .workout-exercise-header h3 {
     margin: 0;
 
-    color: var(--text);
+    color:
+        var(--text);
 
     font-family:
-        var(--font-display);
+        var(--font-ui);
 
-    font-size: 23px;
-    font-weight: 500;
+    font-size: 19px;
 
-    line-height: 1.15;
+    font-weight: 650;
+
+    line-height: 1.18;
+
+    letter-spacing:
+        -0.025em;
 }
+
+
+/*
+    Число подходов.
+
+    Функциональность не меняем:
+    это всё ещё количество подходов,
+    а не декоративная кнопка.
+*/
 
 .workout-exercise-set-count {
     flex-shrink: 0;
 
-    width: 34px;
+    min-width: 34px;
+
     height: 34px;
 
+    padding:
+        0
+        10px;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     border:
         1px solid
-        var(--gold-line);
+        rgba(255, 255, 255, 0.10);
 
-    border-radius: 50%;
+    border-radius:
+        12px;
 
     background:
-        rgba(208, 167, 91, 0.06);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.070),
+            rgba(255, 255, 255, 0.025)
+        );
 
-    color: var(--gold-light);
+    color:
+        var(--text-soft);
 
-    font-size: 14px;
+    font-size: 13px;
+
     font-weight: 600;
+
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.045),
+
+        0
+        5px
+        14px
+        rgba(0, 0, 0, 0.18);
 }
 
 
-/* ---------- Прошлый раз ---------- */
+/* =========================================
+   ПРОШЛАЯ ТРЕНИРОВКА
+   ========================================= */
 
 .previous-performance {
     display: flex;
+
     align-items: center;
 
     flex-wrap: wrap;
@@ -100,51 +216,75 @@
 
     margin-top: 7px;
 
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
-    font-size: 12px;
+    font-size: 11px;
 
     line-height: 1.4;
 }
 
+
 .previous-performance strong {
-    color: var(--gold);
+    color:
+        var(--text-soft);
 
     font-weight: 600;
 }
 
 
-/* ---------- Разделитель ---------- */
+/* =========================================
+   РАЗДЕЛИТЕЛЬ
+   ========================================= */
 
 .workout-exercise-divider {
+    position: relative;
+
     width: 100%;
+
     height: 1px;
 
-    margin: 14px 0;
+    margin:
+        14px
+        0
+        11px;
 
     background:
-        var(--soft-line);
+        rgba(255, 255, 255, 0.075);
 }
 
 
-/* ---------- Подходы ---------- */
+/* =========================================
+   ПОДХОДЫ
+   ========================================= */
 
 .workout-exercise-body {
+    position: relative;
+
     width: 100%;
+
+    z-index: 1;
 }
+
 
 .workout-sets {
     display: flex;
+
     flex-direction: column;
 
-    gap: 7px;
+    gap: 6px;
 }
+
+
+/*
+    Одна строка подхода.
+*/
 
 .workout-set {
     display: grid;
 
     grid-template-columns:
-        31px
+        32px
         minmax(0, 1fr)
         minmax(0, 1fr)
         30px;
@@ -155,51 +295,92 @@
 
     min-height: 46px;
 
-    padding: 5px 7px;
+    padding:
+        5px
+        7px;
 
     border:
         1px solid
-        rgba(240, 236, 226, 0.07);
+        rgba(255, 255, 255, 0.055);
 
     border-radius:
         var(--radius-small);
 
     background:
-        rgba(255, 255, 255, 0.022);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.025),
+            rgba(255, 255, 255, 0.010)
+        );
+
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.018);
 }
 
 
-/* Номер подхода */
+/* =========================================
+   НОМЕР ПОДХОДА
+   ========================================= */
 
 .set-number {
-    width: 29px;
-    height: 29px;
+    width: 30px;
+
+    height: 30px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     border:
         1px solid
-        var(--gold-line);
+        rgba(255, 255, 255, 0.10);
 
-    border-radius: 50%;
+    border-radius:
+        9px;
 
     background:
-        rgba(208, 167, 91, 0.05);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.085),
+            rgba(255, 255, 255, 0.025)
+        );
 
-    color: var(--gold);
+    color:
+        var(--text);
 
     font-size: 13px;
-    font-weight: 600;
+
+    font-weight: 650;
+
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.04),
+
+        0
+        3px
+        8px
+        rgba(0, 0, 0, 0.15);
 }
 
 
-/* Вес / повторения */
+/* =========================================
+   ВЕС / ПОВТОРЕНИЯ
+   ========================================= */
 
 .set-field {
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     min-width: 0;
@@ -207,87 +388,141 @@
     gap: 4px;
 }
 
+
 .set-field input {
     width: 100%;
+
     min-width: 0;
-    max-width: 67px;
 
-    padding: 5px 4px;
+    max-width: 70px;
 
-    border: 0;
-    border-bottom:
+    padding:
+        7px
+        5px;
+
+    border:
         1px solid
-        rgba(208, 167, 91, 0.18);
+        transparent;
 
-    border-radius: 0;
+    border-radius:
+        9px;
 
     outline: none;
 
-    background: transparent;
+    background:
+        rgba(255, 255, 255, 0.025);
 
-    color: var(--text);
+    color:
+        var(--text);
 
     text-align: center;
 
     font-size: 17px;
+
     font-weight: 600;
+
+    line-height: 1;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
 }
+
+
+/*
+    Поле становится чуть светлее
+    только когда пользователь
+    действительно его редактирует.
+*/
 
 .set-field input:focus {
-    border-bottom-color:
-        var(--gold);
+    border-color:
+        rgba(255, 255, 255, 0.20);
+
+    background:
+        rgba(255, 255, 255, 0.075);
 
     color:
-        var(--gold-light);
+        #ffffff;
+
+    box-shadow:
+        inset
+        0
+        1px
+        2px
+        rgba(0, 0, 0, 0.12),
+
+        0
+        0
+        0
+        2px
+        rgba(255, 255, 255, 0.025);
 }
+
 
 .set-field input::placeholder {
     color:
-        rgba(240, 236, 226, 0.23);
+        rgba(255, 255, 255, 0.22);
 }
+
 
 .set-field span {
     flex-shrink: 0;
 
-    color: var(--text-muted);
+    color:
+        var(--text-faint);
 
-    font-size: 10px;
+    font-size: 9px;
+
+    font-weight: 500;
 }
 
 
 /*
     Убираем стандартные стрелки
-    у number-input.
+    number-input.
 */
 
 .set-field input::-webkit-outer-spin-button,
 .set-field input::-webkit-inner-spin-button {
     margin: 0;
+
     -webkit-appearance: none;
 }
 
+
 .set-field input[type="number"] {
     appearance: textfield;
+
     -moz-appearance: textfield;
 }
 
-/* Удаление одного подхода */
+
+/* =========================================
+   УДАЛЕНИЕ ОДНОГО ПОДХОДА
+   ========================================= */
 
 .delete-set-button {
     width: 29px;
+
     height: 29px;
 
     padding: 0;
 
     border: 0;
+
     border-radius: 50%;
 
-    background: transparent;
+    background:
+        transparent;
 
     color:
-        rgba(240, 236, 226, 0.35);
+        rgba(255, 255, 255, 0.30);
 
     font-size: 20px;
+
+    font-weight: 300;
 
     cursor: pointer;
 
@@ -297,22 +532,31 @@
         transform 0.15s ease;
 }
 
+
 .delete-set-button:active {
-    transform: scale(0.88);
+    transform:
+        scale(0.88);
 
     background:
-        rgba(211, 107, 81, 0.10);
+        var(--danger-soft);
 
-    color: var(--danger);
+    color:
+        var(--danger);
 }
 
 
-/* Если подходов ещё нет */
+/* =========================================
+   ПУСТОЕ СОСТОЯНИЕ
+   ========================================= */
 
 .no-sets-message {
-    padding: 12px 0 17px;
+    padding:
+        12px
+        0
+        17px;
 
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
     text-align: center;
 
@@ -320,7 +564,20 @@
 }
 
 
-/* ---------- Нижние кнопки ---------- */
+/* =========================================
+   НИЖНИЕ КНОПКИ
+   ========================================= */
+
+/*
+    ВАЖНО:
+
+    Порядок остаётся тот,
+    который уже есть в JSX:
+
+    Прогресс | Подход | Удалить
+
+    Мы его НЕ меняем.
+*/
 
 .workout-exercise-actions {
     display: grid;
@@ -335,43 +592,72 @@
     margin-top: 13px;
 }
 
+
 .exercise-action-button {
     min-width: 0;
-    min-height: 42px;
 
-    padding: 8px 5px;
+    min-height: 43px;
+
+    padding:
+        8px
+        5px;
 
     border:
         1px solid
-        var(--gold-line);
+        rgba(255, 255, 255, 0.10);
 
-    border-radius: 12px;
+    border-radius:
+        12px;
 
     background:
-        rgba(255, 255, 255, 0.018);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.065),
+            rgba(255, 255, 255, 0.022)
+        );
 
-    color: var(--gold);
+    color:
+        var(--text-soft);
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    gap: 5px;
+    gap: 6px;
 
     font-size: 11px;
+
     font-weight: 600;
 
     cursor: pointer;
 
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.035),
+
+        0
+        5px
+        12px
+        rgba(0, 0, 0, 0.13);
+
     transition:
-        transform 0.15s ease,
-        background 0.15s ease,
-        border-color 0.15s ease;
+        transform 0.14s ease,
+        background 0.14s ease,
+        border-color 0.14s ease,
+        box-shadow 0.14s ease;
 }
 
+
 .exercise-action-button:active {
-    transform: scale(0.96);
+    transform:
+        scale(0.96);
 }
+
 
 .action-icon {
     font-size: 18px;
@@ -380,62 +666,128 @@
 }
 
 
-/* Главная кнопка */
+/* =========================================
+   ПРОГРЕСС
+   ========================================= */
+
+.progress-button {
+    color:
+        var(--text-soft);
+}
+
+
+.progress-button:active {
+    border-color:
+        rgba(255, 255, 255, 0.17);
+
+    background:
+        rgba(255, 255, 255, 0.085);
+}
+
+
+/* =========================================
+   + ПОДХОД
+   ========================================= */
+
+/*
+    Это теперь главный светлый action
+    внутри карточки.
+
+    Кнопка остаётся в своём текущем
+    среднем положении.
+*/
 
 .add-set-button {
     border-color:
-        rgba(208, 167, 91, 0.72);
+        rgba(255, 255, 255, 0.82);
 
     background:
         linear-gradient(
-            135deg,
-            rgba(208, 167, 91, 0.23),
-            rgba(126, 96, 53, 0.16)
+            180deg,
+            #ffffff 0%,
+            #ededeb 100%
         );
 
-    color: var(--gold-light);
+    color:
+        var(--light-action-text);
 
     box-shadow:
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.06);
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 1),
+
+        0
+        6px
+        16px
+        rgba(0, 0, 0, 0.24);
 }
+
 
 .add-set-button:active {
     background:
         linear-gradient(
-            135deg,
-            rgba(208, 167, 91, 0.33),
-            rgba(126, 96, 53, 0.22)
+            180deg,
+            #e6e6e4 0%,
+            #d2d2d0 100%
         );
+
+    box-shadow:
+        inset
+        0
+        1px
+        2px
+        rgba(0, 0, 0, 0.10),
+
+        0
+        3px
+        8px
+        rgba(0, 0, 0, 0.18);
 }
 
 
-/* Прогресс */
-
-.progress-button:active {
-    background:
-        rgba(208, 167, 91, 0.10);
-}
-
-
-/* Удаление упражнения */
+/* =========================================
+   УДАЛЕНИЕ УПРАЖНЕНИЯ
+   ========================================= */
 
 .delete-exercise-button {
     margin: 0;
 
     border-color:
-        rgba(211, 107, 81, 0.28);
+        var(--danger-line);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(216, 120, 120, 0.105),
+            rgba(216, 120, 120, 0.035)
+        );
 
     color:
-        rgba(211, 107, 81, 0.78);
+        var(--danger);
+
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.025),
+
+        0
+        5px
+        12px
+        rgba(0, 0, 0, 0.12);
 }
+
 
 .delete-exercise-button:active {
     border-color:
-        rgba(211, 107, 81, 0.55);
+        rgba(216, 120, 120, 0.48);
 
     background:
-        rgba(211, 107, 81, 0.09);
+        rgba(216, 120, 120, 0.15);
 
-    color: var(--danger);
+    color:
+        #eb9292;
 }

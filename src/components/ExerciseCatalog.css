@@ -1,79 +1,166 @@
+/* =========================================
+   ОСНОВНОЙ ЭКРАН
+   ========================================= */
+
 .exercise-catalog {
     width: 100%;
+
+    max-width: 430px;
+
+    margin: 0 auto;
+
+    padding:
+        calc(
+            18px +
+            var(
+                --tg-content-safe-area-inset-top,
+                0px
+            )
+        )
+        calc(
+            14px +
+            var(
+                --tg-content-safe-area-inset-right,
+                0px
+            )
+        )
+        calc(
+            28px +
+            var(
+                --tg-content-safe-area-inset-bottom,
+                0px
+            )
+        )
+        calc(
+            14px +
+            var(
+                --tg-content-safe-area-inset-left,
+                0px
+            )
+        );
+
+    color:
+        var(--text);
 }
 
 
-/* ---------- Заголовок ---------- */
+/*
+    HTML-кнопка назад видна
+    только вне Telegram.
 
-.catalog-title {
+    Логику не меняем —
+    просто приводим её к стилю.
+*/
+
+.exercise-catalog > button:not(.catalog-create-button) {
     margin:
-        5px
+        0
         0
         18px;
 
-    color: var(--gold-light);
+    padding:
+        8px
+        12px;
 
-    font-family:
-        var(--font-display);
+    border:
+        1px solid
+        var(--soft-line);
 
-    font-size: 31px;
-    font-weight: 500;
+    border-radius:
+        12px;
 
-    line-height: 1.15;
-}
+    background:
+        rgba(255, 255, 255, 0.035);
 
+    color:
+        var(--text-muted);
 
-/* ---------- Кнопка назад в браузере ---------- */
-
-.exercise-catalog > button:first-child {
-    margin-bottom: 16px;
-
-    padding: 7px 0;
-
-    border: 0;
-
-    background: transparent;
-
-    color: var(--gold);
-
-    font-size: 13px;
+    font-size:
+        13px;
 
     cursor: pointer;
 }
 
 
-/* ---------- Поля ввода ---------- */
+/* =========================================
+   ЗАГОЛОВОК
+   ========================================= */
 
-.exercise-catalog input {
+.catalog-title {
+    margin:
+        0
+        0
+        18px;
+
+    color:
+        var(--text);
+
+    font-family:
+        var(--font-ui);
+
+    font-size:
+        31px;
+
+    font-weight: 700;
+
+    line-height: 1.05;
+
+    letter-spacing:
+        -0.035em;
+}
+
+
+/* =========================================
+   ПОИСК
+   ========================================= */
+
+.catalog-search {
     width: 100%;
 
-    min-height: 48px;
+    min-height: 50px;
 
-    margin-bottom: 10px;
+    margin:
+        0
+        0
+        10px;
 
     padding:
-        11px
-        14px;
+        0
+        15px;
 
     border:
         1px solid
-        var(--gold-line);
+        rgba(255, 255, 255, 0.10);
 
     border-radius:
-        var(--radius-medium);
+        15px;
 
     outline: none;
 
     background:
-        rgba(5, 20, 13, 0.78);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.055),
+            rgba(255, 255, 255, 0.020)
+        );
 
-    color: var(--text);
+    color:
+        var(--text);
 
-    font-size: 14px;
+    font-size:
+        15px;
 
     box-shadow:
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.025);
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.025),
+
+        0
+        8px
+        22px
+        rgba(0, 0, 0, 0.16);
 
     transition:
         border-color 0.15s ease,
@@ -81,412 +168,571 @@
         box-shadow 0.15s ease;
 }
 
-.exercise-catalog input::placeholder {
+
+.catalog-search::placeholder {
     color:
-        rgba(240, 236, 226, 0.32);
+        var(--text-faint);
 }
 
-.exercise-catalog input:focus {
+
+.catalog-search:focus {
     border-color:
-        rgba(208, 167, 91, 0.70);
+        rgba(255, 255, 255, 0.22);
 
     background:
-        rgba(8, 29, 19, 0.92);
+        rgba(255, 255, 255, 0.065);
 
     box-shadow:
-        0 0 0 3px
-        rgba(208, 167, 91, 0.06);
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.035),
+
+        0
+        0
+        0
+        3px
+        rgba(255, 255, 255, 0.025),
+
+        0
+        10px
+        25px
+        rgba(0, 0, 0, 0.18);
 }
 
 
-/* ---------- Поиск ---------- */
-
-.catalog-search {
-    margin-bottom: 12px;
-}
-
-
-/* ---------- Создать упражнение ---------- */
+/* =========================================
+   СОЗДАТЬ УПРАЖНЕНИЕ
+   ========================================= */
 
 .catalog-create-button {
     width: 100%;
-    min-height: 47px;
 
-    margin-bottom: 17px;
+    min-height: 50px;
+
+    margin:
+        0
+        0
+        18px;
+
+    padding:
+        10px
+        16px;
 
     border:
         1px solid
-        rgba(208, 167, 91, 0.45);
+        rgba(255, 255, 255, 0.78);
 
     border-radius:
-        var(--radius-medium);
+        15px;
 
     background:
         linear-gradient(
-            135deg,
-            rgba(16, 48, 33, 0.86),
-            rgba(6, 24, 16, 0.94)
+            180deg,
+            #ffffff 0%,
+            #e9e9e7 100%
         );
 
     color:
-        var(--gold-light);
+        var(--light-action-text);
 
-    font-size: 13px;
-    font-weight: 600;
+    font-size:
+        14px;
+
+    font-weight: 650;
 
     cursor: pointer;
 
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 1),
+
+        0
+        7px
+        18px
+        rgba(0, 0, 0, 0.25);
+
     transition:
-        transform 0.15s ease,
-        border-color 0.15s ease;
+        transform 0.14s ease,
+        background 0.14s ease;
 }
+
 
 .catalog-create-button:active {
     transform:
         scale(0.985);
 
-    border-color:
-        var(--gold);
+    background:
+        linear-gradient(
+            180deg,
+            #e5e5e3,
+            #d3d3d1
+        );
 }
 
 
-/* ---------- Группы мышц ---------- */
+/* =========================================
+   СЕТКА ГРУПП МЫШЦ
+   ========================================= */
 
 .exercise-groups {
     display: grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
 
-    gap: 10px;
+    gap: 9px;
 }
+
 
 .group-button {
     position: relative;
 
+    width: 100%;
+
     min-height: 76px;
 
-    padding:
-        13px
-        14px;
+    margin: 0;
 
-    overflow: hidden;
+    padding:
+        15px
+        14px;
 
     border:
         1px solid
-        var(--gold-line);
+        rgba(255, 255, 255, 0.095);
 
     border-radius:
-        var(--radius-large);
+        18px;
 
     background:
+        radial-gradient(
+            ellipse
+            at 25% 0%,
+            rgba(255, 255, 255, 0.050),
+            transparent 60%
+        ),
+
         linear-gradient(
             145deg,
-            rgba(12, 42, 28, 0.91),
-            rgba(5, 22, 14, 0.96)
+            rgba(26, 27, 29, 0.91),
+            rgba(13, 14, 16, 0.96)
         );
 
     color:
-        var(--text);
+        var(--text-soft);
+
+    font-size:
+        15px;
+
+    font-weight: 600;
+
+    line-height: 1.2;
 
     text-align: left;
-
-    font-family:
-        var(--font-display);
-
-    font-size: 19px;
-    font-weight: 500;
 
     cursor: pointer;
 
     box-shadow:
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.03),
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.04),
 
-        0 8px 22px
-        rgba(0, 0, 0, 0.16);
+        0
+        10px
+        24px
+        rgba(0, 0, 0, 0.22);
 
     transition:
-        transform 0.15s ease,
-        border-color 0.15s ease,
-        background 0.15s ease;
+        transform 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
 }
 
-
-/*
-    Небольшое декоративное золотое пятно
-    в углу карточки.
-*/
-.group-button::after {
-    content: "";
-
-    position: absolute;
-
-    width: 46px;
-    height: 46px;
-
-    right: -19px;
-    bottom: -21px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(208, 167, 91, 0.17),
-            transparent 70%
-        );
-}
 
 .group-button:active {
     transform:
         scale(0.97);
 
     border-color:
-        rgba(208, 167, 91, 0.70);
+        rgba(255, 255, 255, 0.17);
 
     background:
-        linear-gradient(
-            145deg,
-            rgba(18, 55, 37, 0.96),
-            rgba(7, 28, 18, 0.98)
-        );
+        rgba(255, 255, 255, 0.075);
 }
 
 
-/* ---------- Выбранная группа ---------- */
-
-.catalog-group-title {
-    margin:
-        5px
-        0
-        13px;
-
-    color:
-        var(--gold-light);
-
-    font-family:
-        var(--font-display);
-
-    font-size: 24px;
-    font-weight: 500;
-}
-
-
-/* ---------- Список упражнений ---------- */
+/* =========================================
+   СПИСОК УПРАЖНЕНИЙ
+   ========================================= */
 
 .exercise-list {
     display: flex;
+
     flex-direction: column;
 
     gap: 8px;
 }
+
+
+.catalog-group-title {
+    margin:
+        2px
+        2px
+        8px;
+
+    color:
+        var(--text);
+
+    font-size:
+        20px;
+
+    font-weight: 650;
+
+    letter-spacing:
+        -0.02em;
+}
+
 
 .exercise-catalog-row {
     display: grid;
 
     grid-template-columns:
         minmax(0, 1fr)
-        42px;
+        auto;
+
+    align-items: stretch;
 
     gap: 7px;
 
-    min-height: 54px;
+    width: 100%;
 }
+
 
 .exercise-catalog-main-button {
     min-width: 0;
 
+    min-height: 52px;
+
     padding:
-        12px
+        11px
         14px;
 
     border:
         1px solid
-        rgba(240, 236, 226, 0.07);
+        rgba(255, 255, 255, 0.085);
 
     border-radius:
-        var(--radius-medium);
+        15px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(11, 37, 25, 0.91),
-            rgba(5, 20, 13, 0.96)
+            rgba(255, 255, 255, 0.052),
+            rgba(255, 255, 255, 0.018)
         );
 
     color:
-        var(--text);
+        var(--text-soft);
+
+    font-size:
+        14px;
+
+    font-weight: 550;
+
+    line-height: 1.25;
 
     text-align: left;
 
-    font-size: 14px;
-    font-weight: 500;
-
     cursor: pointer;
 
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.025),
+
+        0
+        7px
+        18px
+        rgba(0, 0, 0, 0.14);
+
     transition:
-        transform 0.15s ease,
-        border-color 0.15s ease,
-        color 0.15s ease;
+        transform 0.14s ease,
+        background 0.14s ease,
+        border-color 0.14s ease;
 }
+
 
 .exercise-catalog-main-button:active {
     transform:
         scale(0.985);
 
     border-color:
-        var(--gold-line);
+        rgba(255, 255, 255, 0.16);
 
-    color:
-        var(--gold-light);
+    background:
+        rgba(255, 255, 255, 0.075);
 }
 
 
-/* ---------- Глобальное удаление ---------- */
+/* =========================================
+   ГЛОБАЛЬНОЕ УДАЛЕНИЕ
+   ========================================= */
 
 .exercise-catalog-delete-button {
-    width: 42px;
+    width: 48px;
+
+    min-height: 52px;
 
     padding: 0;
 
     border:
         1px solid
-        rgba(211, 107, 81, 0.18);
+        var(--danger-line);
+
+    border-radius:
+        15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(216, 120, 120, 0.10),
+            rgba(216, 120, 120, 0.025)
+        );
+
+    color:
+        var(--danger);
+
+    font-size:
+        21px;
+
+    font-weight: 300;
+
+    cursor: pointer;
+
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.02);
+
+    transition:
+        transform 0.14s ease,
+        background 0.14s ease,
+        border-color 0.14s ease;
+}
+
+
+.exercise-catalog-delete-button:active {
+    transform:
+        scale(0.94);
+
+    border-color:
+        rgba(216, 120, 120, 0.45);
+
+    background:
+        rgba(216, 120, 120, 0.15);
+}
+
+
+/* =========================================
+   НИЧЕГО НЕ НАЙДЕНО
+   ========================================= */
+
+.exercise-list > p {
+    margin:
+        12px
+        0;
+
+    padding:
+        22px
+        16px;
+
+    border:
+        1px solid
+        var(--soft-line);
 
     border-radius:
         var(--radius-medium);
 
     background:
-        rgba(211, 107, 81, 0.025);
-
-    color:
-        rgba(211, 107, 81, 0.58);
-
-    font-size: 20px;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        border-color 0.15s ease,
-        background 0.15s ease,
-        color 0.15s ease;
-}
-
-.exercise-catalog-delete-button:active {
-    transform:
-        scale(0.92);
-
-    border-color:
-        rgba(211, 107, 81, 0.50);
-
-    background:
-        rgba(211, 107, 81, 0.10);
-
-    color:
-        var(--danger);
-}
-
-
-/* ---------- Пустой поиск ---------- */
-
-.exercise-list > p {
-    margin:
-        18px
-        0;
+        rgba(255, 255, 255, 0.020);
 
     color:
         var(--text-muted);
 
     text-align: center;
 
-    font-size: 13px;
+    font-size:
+        13px;
 }
 
-/* ---------- Создание упражнения ---------- */
+
+/* =========================================
+   ФОРМА СОЗДАНИЯ
+   ========================================= */
 
 .create-exercise-card {
+    width: 100%;
+
     padding: 17px;
 
     border:
         1px solid
-        var(--gold-line);
+        rgba(255, 255, 255, 0.10);
 
     border-radius:
         var(--radius-large);
 
     background:
+        radial-gradient(
+            ellipse
+            at 30% 0%,
+            rgba(255, 255, 255, 0.050),
+            transparent 48%
+        ),
+
         linear-gradient(
             145deg,
-            rgba(11, 37, 25, 0.93),
-            rgba(5, 21, 14, 0.97)
+            rgba(26, 27, 29, 0.94),
+            rgba(12, 13, 15, 0.98)
         );
 
     box-shadow:
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.035),
+        inset
+        0
+        1px
+        0
+        rgba(255, 255, 255, 0.045),
 
-        0 14px 34px
-        rgba(0, 0, 0, 0.22);
+        0
+        18px
+        42px
+        rgba(0, 0, 0, 0.28);
 }
 
-
-/* Отдельное поле */
 
 .create-exercise-field {
-    margin-bottom: 17px;
+    margin-bottom: 18px;
 }
+
 
 .create-exercise-field label {
     display: block;
 
-    margin-bottom: 7px;
+    margin:
+        0
+        0
+        7px;
 
     color:
-        var(--gold-light);
+        var(--text-soft);
 
-    font-size: 12px;
+    font-size:
+        12px;
+
     font-weight: 600;
-
-    letter-spacing: 0.04em;
 }
 
-
-/*
-    Наш общий .exercise-catalog input
-    уже оформляет сами поля.
-    Здесь только убираем лишний
-    нижний отступ.
-*/
 
 .create-exercise-field input {
-    margin-bottom: 0;
+    width: 100%;
+
+    min-height: 49px;
+
+    margin: 0;
+
+    padding:
+        0
+        13px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.095);
+
+    border-radius:
+        13px;
+
+    outline: none;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    color:
+        var(--text);
+
+    font-size:
+        15px;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 
-/* Подсказка */
+.create-exercise-field input::placeholder {
+    color:
+        var(--text-faint);
+}
+
+
+.create-exercise-field input:focus {
+    border-color:
+        rgba(255, 255, 255, 0.21);
+
+    background:
+        rgba(255, 255, 255, 0.065);
+
+    box-shadow:
+        0
+        0
+        0
+        3px
+        rgba(255, 255, 255, 0.025);
+}
+
+
+/* =========================================
+   ПОДСКАЗКИ
+   ========================================= */
 
 .create-exercise-hint {
     display: block;
 
-    margin-top: 6px;
+    margin-top: 7px;
 
     color:
-        rgba(156, 165, 158, 0.72);
+        var(--text-faint);
 
-    font-size: 10px;
-    line-height: 1.4;
+    font-size:
+        11px;
+
+    line-height: 1.45;
 }
 
 
-/* Ошибка */
+/* =========================================
+   ОШИБКА
+   ========================================= */
 
 .create-exercise-error {
     margin:
-        2px
+        -2px
         0
-        15px;
+        16px;
 
     padding:
         10px
@@ -494,115 +740,126 @@
 
     border:
         1px solid
-        rgba(211, 107, 81, 0.25);
+        var(--danger-line);
 
     border-radius:
-        var(--radius-small);
+        12px;
 
     background:
-        rgba(211, 107, 81, 0.07);
+        var(--danger-soft);
 
     color:
-        #dd856f;
+        var(--danger);
 
-    font-size: 11px;
+    font-size:
+        12px;
+
     line-height: 1.4;
 }
 
 
-/* Кнопки */
+/* =========================================
+   КНОПКИ ФОРМЫ
+   ========================================= */
 
 .create-exercise-actions {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.4fr)
+        minmax(0, 1fr);
 
     gap: 8px;
 
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 
-/* Главная кнопка */
+.create-exercise-submit,
+.create-exercise-cancel {
+    min-width: 0;
 
-.create-exercise-submit {
-    width: 100%;
-    min-height: 50px;
+    min-height: 48px;
 
-    border:
-        1px solid
-        rgba(208, 167, 91, 0.72);
+    padding:
+        9px
+        10px;
 
     border-radius:
-        var(--radius-medium);
+        14px;
 
-    background:
-        linear-gradient(
-            135deg,
-            rgba(208, 167, 91, 0.26),
-            rgba(126, 96, 53, 0.16)
-        );
+    font-size:
+        13px;
 
-    color:
-        var(--gold-light);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    font-size: 13px;
     font-weight: 600;
 
     cursor: pointer;
 
     transition:
-        transform 0.15s ease,
-        background 0.15s ease;
+        transform 0.14s ease,
+        background 0.14s ease;
 }
 
-.create-exercise-submit span {
-    font-size: 20px;
-    font-weight: 300;
-}
 
-.create-exercise-submit:active {
-    transform:
-        scale(0.985);
+.create-exercise-submit {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.82);
 
     background:
         linear-gradient(
-            135deg,
-            rgba(208, 167, 91, 0.36),
-            rgba(126, 96, 53, 0.23)
+            180deg,
+            #ffffff,
+            #e7e7e5
         );
-}
-
-
-/* Отмена */
-
-.create-exercise-cancel {
-    width: 100%;
-    min-height: 42px;
-
-    border: 0;
-    border-radius:
-        var(--radius-small);
-
-    background: transparent;
 
     color:
-        var(--text-muted);
+        var(--light-action-text);
 
-    font-size: 12px;
-
-    cursor: pointer;
+    box-shadow:
+        0
+        6px
+        17px
+        rgba(0, 0, 0, 0.24);
 }
 
-.create-exercise-cancel:active {
+
+.create-exercise-submit span {
+    margin-right: 3px;
+
+    font-size: 18px;
+
+    font-weight: 400;
+}
+
+
+.create-exercise-cancel {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
     background:
         rgba(255, 255, 255, 0.035);
 
     color:
-        var(--text);
+        var(--text-muted);
+}
+
+
+.create-exercise-submit:active,
+.create-exercise-cancel:active {
+    transform:
+        scale(0.97);
+}
+
+
+.create-exercise-submit:active {
+    background:
+        #d8d8d6;
+}
+
+
+.create-exercise-cancel:active {
+    background:
+        rgba(255, 255, 255, 0.075);
 }

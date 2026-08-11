@@ -21,7 +21,7 @@ if (telegram) {
         который лежит в основе нашего фона.
     */
     telegram.setHeaderColor(
-        '#050d09'
+        '#070708'
     )
 
 
@@ -31,7 +31,7 @@ if (telegram) {
         изменении высоты окна и на краях.
     */
     telegram.setBackgroundColor(
-        '#050d09'
+        '#070708'
     )
 
 
@@ -46,7 +46,7 @@ if (telegram) {
         telegram.isVersionAtLeast('7.10')
     ) {
         telegram.setBottomBarColor(
-            '#050d09'
+            '#070708'
         )
     }
 }

@@ -1,10 +1,17 @@
+/* =========================================
+   НАЗВАНИЕ МЕСЯЦА
+   ========================================= */
+
 .month-button {
     display: flex;
     align-items: center;
 
     gap: 9px;
 
-    margin: 4px 0 18px;
+    margin:
+        2px
+        0
+        18px;
 
     padding: 0;
 
@@ -12,38 +19,57 @@
 
     background: transparent;
 
-    color: var(--gold-light);
+    color:
+        var(--text);
 
-    font-family: var(--font-display);
-    font-size: 34px;
-    font-weight: 500;
+    font-family:
+        var(--font-ui);
 
-    letter-spacing: 0.04em;
+    font-size: 32px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    letter-spacing:
+        -0.035em;
 
     text-transform: capitalize;
 
     cursor: pointer;
 }
 
+
 .month-button::after {
     content: "⌄";
 
     position: relative;
+
     top: -2px;
 
-    color: var(--gold);
+    color:
+        var(--text-muted);
 
-    font-family: var(--font-ui);
-    font-size: 22px;
+    font-family:
+        var(--font-ui);
+
+    font-size: 21px;
+
+    font-weight: 400;
 }
+
+
+/* =========================================
+   НЕДЕЛЯ
+   ========================================= */
 
 .week-navigation {
     display: grid;
 
     grid-template-columns:
-        22px
+        20px
         minmax(0, 1fr)
-        22px;
+        20px;
 
     align-items: center;
 
@@ -51,12 +77,13 @@
 
     width: 100%;
 
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
+
 .week-navigation > button {
-    width: 22px;
-    height: 42px;
+    width: 20px;
+    height: 44px;
 
     padding: 0;
 
@@ -64,135 +91,284 @@
 
     background: transparent;
 
-    color: var(--gold-dark);
+    color:
+        var(--text-faint);
 
-    font-size: 28px;
+    font-size: 27px;
+
+    font-weight: 300;
 
     cursor: pointer;
+
+    transition:
+        color 0.15s ease,
+        transform 0.15s ease;
 }
+
+
+.week-navigation > button:active {
+    color:
+        var(--text);
+
+    transform:
+        scale(0.88);
+}
+
+
+/* =========================================
+   ДНИ
+   ========================================= */
 
 .calendar {
     display: grid;
 
     grid-template-columns:
-        repeat(7, minmax(0, 1fr));
+        repeat(
+            7,
+            minmax(0, 1fr)
+        );
 
-    gap: 3px;
+    gap: 2px;
 
     width: 100%;
+
     min-width: 0;
 }
+
 
 .calendar-day {
     position: relative;
 
     min-width: 0;
-    height: 74px;
 
-    padding: 5px 1px;
+    height: 78px;
 
-    border: 1px solid transparent;
-    border-radius: 20px;
+    padding:
+        4px
+        1px;
+
+    border: 0;
+
+    border-radius:
+        18px;
 
     background: transparent;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
+
     justify-content: flex-start;
 
     gap: 7px;
 
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
     cursor: pointer;
 
     transition:
+        transform 0.14s ease;
+}
+
+
+.calendar-day:active {
+    transform:
+        scale(0.94);
+}
+
+
+.calendar-day-name {
+    font-size: 10px;
+
+    font-weight: 500;
+
+    letter-spacing:
+        0.06em;
+
+    color:
+        var(--text-muted);
+}
+
+
+.calendar-day-number {
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:
+        14px;
+
+    background:
+        transparent;
+
+    color:
+        var(--text-soft);
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    transition:
+        color 0.15s ease,
         background 0.15s ease,
         border-color 0.15s ease,
+        box-shadow 0.15s ease,
         transform 0.15s ease;
 }
 
-.calendar-day:active {
-    transform: scale(0.94);
-}
 
-.calendar-day-name {
-    font-size: 11px;
-    font-weight: 600;
-
-    letter-spacing: 0.08em;
-
-    color: #89938c;
-}
-
-.calendar-day-number {
-    width: 35px;
-    height: 35px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    color: var(--text);
-
-    font-size: 18px;
-    font-weight: 500;
-}
+/* =========================================
+   ТОЧКА ТРЕНИРОВКИ
+   ========================================= */
 
 .calendar-day-dot {
     width: 4px;
+
     height: 4px;
 
     border-radius: 50%;
 
     background:
-        rgba(240, 236, 226, 0.28);
+        rgba(
+            255,
+            255,
+            255,
+            0.13
+        );
 }
+
+
+/*
+    День с тренировкой.
+
+    Сам номер не окрашиваем.
+    Отличие — более заметная точка.
+*/
 
 .calendar-day.planned
 .calendar-day-number {
-    color: var(--gold);
+    color:
+        var(--text);
 }
+
+
+.calendar-day.planned
+.calendar-day-dot {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.60
+        );
+
+    box-shadow:
+        0
+        0
+        7px
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
+}
+
+
+/* =========================================
+   ВЫБРАННЫЙ ДЕНЬ
+   ========================================= */
 
 .calendar-day.selected
 .calendar-day-name {
-    color: var(--gold);
+    color:
+        var(--text);
 }
+
 
 .calendar-day.selected
 .calendar-day-number {
-    border:
-        1px solid
-        var(--gold);
-
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            #f0d795 0%,
-            #d2a65a 48%,
-            #9a753d 100%
+    border-color:
+        rgba(
+            255,
+            255,
+            255,
+            0.80
         );
 
-    color: #132117;
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #eeeeec 58%,
+            #d9d9d7 100%
+        );
+
+    color:
+        #111113;
 
     box-shadow:
-        0 0 0 3px
-        rgba(208, 167, 91, 0.10),
-        0 6px 18px
-        rgba(0, 0, 0, 0.30);
+        inset
+        0
+        1px
+        0
+        rgba(
+            255,
+            255,
+            255,
+            1
+        ),
+
+        0
+        7px
+        18px
+        rgba(
+            0,
+            0,
+            0,
+            0.32
+        ),
+
+        0
+        0
+        18px
+        rgba(
+            255,
+            255,
+            255,
+            0.055
+        );
 }
+
 
 .calendar-day.selected
 .calendar-day-dot {
-    background: var(--gold);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.70
+        );
 }
 
 
-/* ---------- Выбор месяца ---------- */
+/* =========================================
+   ОКНО ВЫБОРА МЕСЯЦА
+   ========================================= */
 
 .month-picker-overlay {
     position: fixed;
@@ -200,29 +376,41 @@
     inset: 0;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     padding: 20px;
 
     background:
-        rgba(1, 7, 4, 0.76);
+        rgba(
+            0,
+            0,
+            0,
+            0.72
+        );
 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
 
     z-index: 900;
 }
 
+
 .month-picker {
     width: 100%;
+
     max-width: 320px;
 
     padding: 20px;
 
     border:
         1px solid
-        var(--gold-line);
+        var(--line);
 
     border-radius:
         var(--radius-large);
@@ -230,116 +418,267 @@
     background:
         linear-gradient(
             145deg,
-            rgba(15, 43, 30, 0.98),
-            rgba(5, 20, 13, 0.99)
+            rgba(
+                29,
+                30,
+                32,
+                0.98
+            ),
+            rgba(
+                12,
+                13,
+                15,
+                0.99
+            )
         );
 
     box-shadow:
-        0 24px 60px
-        rgba(0, 0, 0, 0.48);
+        inset
+        0
+        1px
+        0
+        rgba(
+            255,
+            255,
+            255,
+            0.055
+        ),
+
+        0
+        24px
+        65px
+        rgba(
+            0,
+            0,
+            0,
+            0.58
+        );
 }
+
+
+/* =========================================
+   ГОД
+   ========================================= */
 
 .year-navigation {
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     margin-bottom: 20px;
 }
 
+
 .year-navigation h2 {
     margin: 0;
 
-    color: var(--gold-light);
+    color:
+        var(--text);
 
-    font-family: var(--font-display);
-    font-weight: 500;
+    font-family:
+        var(--font-ui);
+
+    font-size: 24px;
+
+    font-weight: 650;
+
+    letter-spacing:
+        -0.025em;
 }
+
 
 .year-navigation button {
     width: 42px;
+
     height: 42px;
+
+    padding: 0;
 
     border:
         1px solid
-        var(--gold-line);
+        var(--line);
 
     border-radius: 50%;
 
     background:
-        rgba(208, 167, 91, 0.05);
+        linear-gradient(
+            145deg,
+            rgba(
+                255,
+                255,
+                255,
+                0.07
+            ),
+            rgba(
+                255,
+                255,
+                255,
+                0.025
+            )
+        );
 
-    color: var(--gold);
+    color:
+        var(--text-soft);
 
-    font-size: 24px;
+    font-size: 23px;
+
+    cursor: pointer;
+
+    box-shadow:
+        inset
+        0
+        1px
+        0
+        rgba(
+            255,
+            255,
+            255,
+            0.04
+        );
 }
+
+
+.year-navigation button:active {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.11
+        );
+
+    transform:
+        scale(0.95);
+}
+
+
+/* =========================================
+   МЕСЯЦЫ
+   ========================================= */
 
 .month-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(4, 1fr);
+        repeat(
+            4,
+            1fr
+        );
 
     gap: 8px;
 
     margin-bottom: 16px;
 }
 
+
 .month-grid button,
 .month-picker > button {
     min-height: 42px;
 
+    padding:
+        7px
+        8px;
+
     border:
         1px solid
-        var(--gold-line);
+        var(--soft-line);
 
     border-radius:
         var(--radius-small);
 
     background:
-        rgba(255, 255, 255, 0.025);
-
-    color: var(--text);
-
-    cursor: pointer;
-}
-
-.month-grid button:active,
-.month-picker > button:active {
-    background:
-        rgba(208, 167, 91, 0.13);
-}
-
-/* ---------- Выбранный месяц ---------- */
-
-.month-grid button.selected-month {
-    border-color:
-        rgba(208, 167, 91, 0.78);
-
-    background:
         linear-gradient(
-            135deg,
-            rgba(208, 167, 91, 0.24),
-            rgba(126, 96, 53, 0.14)
+            145deg,
+            rgba(
+                255,
+                255,
+                255,
+                0.045
+            ),
+            rgba(
+                255,
+                255,
+                255,
+                0.018
+            )
         );
 
     color:
-        var(--gold-light);
+        var(--text-soft);
 
-    box-shadow:
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.05),
+    font-size: 13px;
 
-        0 0 0 2px
-        rgba(208, 167, 91, 0.045);
+    cursor: pointer;
+
+    transition:
+        background 0.14s ease,
+        color 0.14s ease,
+        border-color 0.14s ease,
+        transform 0.14s ease;
 }
 
-.month-grid button.selected-month:active {
+
+.month-grid button:active,
+.month-picker > button:active {
+    transform:
+        scale(0.96);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.10
+        );
+}
+
+
+/* =========================================
+   ВЫБРАННЫЙ МЕСЯЦ
+   ========================================= */
+
+.month-grid button.selected-month {
+    border-color:
+        rgba(
+            255,
+            255,
+            255,
+            0.82
+        );
+
     background:
         linear-gradient(
-            135deg,
-            rgba(208, 167, 91, 0.34),
-            rgba(126, 96, 53, 0.20)
+            145deg,
+            #ffffff,
+            #dddddc
+        );
+
+    color:
+        #111113;
+
+    font-weight: 600;
+
+    box-shadow:
+        0
+        5px
+        14px
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+}
+
+
+.month-grid
+button.selected-month:active {
+    background:
+        linear-gradient(
+            145deg,
+            #e7e7e6,
+            #cacac8
         );
 }
