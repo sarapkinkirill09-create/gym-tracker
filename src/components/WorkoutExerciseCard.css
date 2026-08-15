@@ -200,7 +200,119 @@
         rgba(0, 0, 0, 0.18);
 }
 
+/* =========================================
+   ПЕРЕТАСКИВАНИЕ УПРАЖНЕНИЯ
+   ========================================= */
 
+.workout-exercise-header-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+}
+
+
+.exercise-drag-handle {
+    width: 34px;
+
+    height: 34px;
+
+    padding: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+    border-radius: 12px;
+
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.055),
+            rgba(255, 255, 255, 0.018)
+        );
+
+
+    color:
+        var(--text-muted);
+
+    font-size: 20px;
+
+    line-height: 1;
+
+
+    cursor: grab;
+
+
+    /*
+        Критично для телефона.
+
+        Отключаем жест прокрутки
+        ТОЛЬКО на ручке.
+
+        На всей остальной карточке
+        скролл остаётся обычным.
+    */
+
+    touch-action: none;
+
+    user-select: none;
+
+    -webkit-user-select: none;
+
+
+    transition:
+        background 0.14s ease,
+        border-color 0.14s ease,
+        color 0.14s ease,
+        transform 0.14s ease;
+}
+
+
+.exercise-drag-handle:active {
+    cursor: grabbing;
+
+    transform:
+        scale(0.94);
+
+    color:
+        var(--text);
+
+    border-color:
+        rgba(255, 255, 255, 0.19);
+
+    background:
+        rgba(255, 255, 255, 0.09);
+}
+
+
+.workout-exercise-card.is-dragging {
+    z-index: 50;
+
+    opacity: 0.94;
+
+    box-shadow:
+        0
+        24px
+        55px
+        rgba(0, 0, 0, 0.55);
+
+    border-color:
+        rgba(255, 255, 255, 0.20);
+}
 /* =========================================
    ПРОШЛАЯ ТРЕНИРОВКА
    ========================================= */

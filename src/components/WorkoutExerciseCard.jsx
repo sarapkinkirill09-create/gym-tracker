@@ -1,3 +1,11 @@
+import {
+    useSortable
+} from '@dnd-kit/sortable'
+
+import {
+    CSS
+} from '@dnd-kit/utilities'
+
 import './WorkoutExerciseCard.css'
 
 function WorkoutExerciseCard({
@@ -10,6 +18,29 @@ function WorkoutExerciseCard({
     onDeleteExercise,
     onOpenProgress
 }) {
+
+        const {
+            attributes,
+            listeners,
+            setNodeRef,
+            transform,
+            transition,
+            isDragging
+        } = useSortable({
+            id:
+                workoutExercise.exerciseId
+        })
+
+
+        const sortableStyle = {
+            transform:
+                CSS.Transform.toString(
+                    transform
+                ),
+
+            transition
+        }
+
     const setCount =
         workoutExercise.sets.length
 
@@ -21,7 +52,19 @@ function WorkoutExerciseCard({
     }
 
     return (
-        <div className="workout-exercise-card">
+        <div
+            ref={setNodeRef}
+
+            style={sortableStyle}
+
+            className={
+                `workout-exercise-card ${
+                    isDragging
+                        ? 'is-dragging'
+                        : ''
+                }`
+            }
+        >
 
             <div className="workout-exercise-header">
 
@@ -53,8 +96,28 @@ function WorkoutExerciseCard({
 
                 </div>
 
-                <div className="workout-exercise-set-count">
-                    {setCount}
+                <div className="workout-exercise-header-actions">
+
+                    <div className="workout-exercise-set-count">
+                        {setCount}
+                    </div>
+
+
+                    <button
+                        type="button"
+
+                        className="exercise-drag-handle"
+
+                        aria-label={
+                            `Переместить ${exerciseData.name}`
+                        }
+
+                        {...attributes}
+                        {...listeners}
+                    >
+                        ⠿
+                    </button>
+
                 </div>
 
             </div>

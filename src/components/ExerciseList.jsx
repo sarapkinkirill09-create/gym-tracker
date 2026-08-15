@@ -1,3 +1,16 @@
+import {
+    DndContext,
+    PointerSensor,
+    closestCenter,
+    useSensor,
+    useSensors
+} from '@dnd-kit/core'
+
+import {
+    SortableContext,
+    verticalListSortingStrategy
+} from '@dnd-kit/sortable'
+
 import exercises from '../data/exercises'
 import WorkoutExerciseCard from './WorkoutExerciseCard'
 
@@ -11,9 +24,49 @@ function ExerciseList({
     onAddSet,
     onUpdateSet,
     onDeleteSet,
+    onMoveExercise,
     onDeleteExercise,
     onOpenProgress
 }) {
+
+        const sensors = useSensors(
+            useSensor(
+                PointerSensor,
+                {
+                    activationConstraint: {
+                        distance: 6
+                    }
+                }
+            )
+        )
+
+
+        function handleDragEnd(event) {
+            const {
+                active,
+                over
+            } = event
+
+
+            if (!over) {
+                return
+            }
+
+
+            if (
+                active.id ===
+                over.id
+            ) {
+                return
+            }
+
+
+            onMoveExercise(
+                active.id,
+                over.id
+            )
+        }
+
     const allExercises = [
         ...exercises,
         ...customExercises
@@ -96,58 +149,88 @@ function ExerciseList({
             {workout.exercises.length === 0 ? (
                 <p>Пока нет упражнений</p>
             ) : (
-                <div>
-                    {workout.exercises.map(
-                        (workoutExercise) => {
 
-                            const exerciseData =
-                                allExercises.find(
-                                    (exercise) =>
-                                        exercise.id ===
-                                        workoutExercise.exerciseId
-                                )
-
-                            if (!exerciseData) {
-                                return null
-                            }
-
-                            const previousPerformance =
-                                getPreviousPerformance(
-                                    workoutExercise.exerciseId
-                                )
-
-                            return (
-                                <WorkoutExerciseCard
-                                    key={
-                                        workoutExercise.exerciseId
-                                    }
-                                    exerciseData={
-                                        exerciseData
-                                    }
-                                    workoutExercise={
-                                        workoutExercise
-                                    }
-                                    previousPerformance={
-                                        previousPerformance
-                                    }
-                                    onAddSet={onAddSet}
-                                    onUpdateSet={
-                                        onUpdateSet
-                                    }
-                                    onDeleteSet={
-                                        onDeleteSet
-                                    }
-                                    onDeleteExercise={
-                                        onDeleteExercise
-                                    }
-                                    onOpenProgress={
-                                        onOpenProgress
-                                    }
-                                />
-                            )
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                >
+                    <SortableContext
+                        items={workout.exercises.map(
+                            (exercise) =>
+                                exercise.exerciseId
+                        )}
+                        strategy={
+                            verticalListSortingStrategy
                         }
-                    )}
-                </div>
+                    >
+                            <div>
+                                {workout.exercises.map(
+                                    (workoutExercise) => {
+
+                                        const exerciseData =
+                                            allExercises.find(
+                                                (exercise) =>
+                                                    exercise.id ===
+                                                    workoutExercise.exerciseId
+                                            )
+
+
+                                        if (!exerciseData) {
+                                            return null
+                                        }
+
+
+                                        const previousPerformance =
+                                            getPreviousPerformance(
+                                                workoutExercise.exerciseId
+                                            )
+
+
+                                        return (
+                                            <WorkoutExerciseCard
+                                                key={
+                                                    workoutExercise.exerciseId
+                                                }
+
+                                                exerciseData={
+                                                    exerciseData
+                                                }
+
+                                                workoutExercise={
+                                                    workoutExercise
+                                                }
+
+                                                previousPerformance={
+                                                    previousPerformance
+                                                }
+
+                                                onAddSet={
+                                                    onAddSet
+                                                }
+
+                                                onUpdateSet={
+                                                    onUpdateSet
+                                                }
+
+                                                onDeleteSet={
+                                                    onDeleteSet
+                                                }
+
+                                                onDeleteExercise={
+                                                    onDeleteExercise
+                                                }
+
+                                                onOpenProgress={
+                                                    onOpenProgress
+                                                }
+                                            />
+                                        )
+                                    }
+                                )}
+                            </div>
+                        </SortableContext>
+                    </DndContext>
             )}
 
             <button

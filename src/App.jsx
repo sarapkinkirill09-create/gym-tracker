@@ -422,6 +422,123 @@ function App() {
         hapticMedium()
     }
 
+    function moveExercise(
+        activeExerciseId,
+        overExerciseId
+    ) {
+        /*
+            Если упражнение отпустили
+            на то же самое место —
+            ничего не делаем.
+        */
+        if (
+            activeExerciseId ===
+            overExerciseId
+        ) {
+            return
+        }
+
+
+        setWorkouts((previousWorkouts) => {
+
+            const workout =
+                previousWorkouts[dateKey]
+
+
+            if (!workout) {
+                return previousWorkouts
+            }
+
+
+            /*
+                Находим старую и новую
+                позицию упражнения.
+            */
+
+            const oldIndex =
+                workout.exercises.findIndex(
+                    (exercise) =>
+                        exercise.exerciseId ===
+                        activeExerciseId
+                )
+
+
+            const newIndex =
+                workout.exercises.findIndex(
+                    (exercise) =>
+                        exercise.exerciseId ===
+                        overExerciseId
+                )
+
+
+            /*
+                На всякий случай:
+                если что-то не найдено,
+                исходные данные не трогаем.
+            */
+
+            if (
+                oldIndex === -1 ||
+                newIndex === -1
+            ) {
+                return previousWorkouts
+            }
+
+
+            /*
+                Создаём копию массива.
+
+                Например:
+
+                [A, B, C]
+
+                переносим C на место A
+
+                →
+
+                [C, A, B]
+            */
+
+            const updatedExercises = [
+                ...workout.exercises
+            ]
+
+
+            const [movedExercise] =
+                updatedExercises.splice(
+                    oldIndex,
+                    1
+                )
+
+
+            updatedExercises.splice(
+                newIndex,
+                0,
+                movedExercise
+            )
+
+
+            return {
+                ...previousWorkouts,
+
+                [dateKey]: {
+                    ...workout,
+
+                    exercises:
+                        updatedExercises
+                }
+            }
+        })
+
+
+        /*
+            Лёгкий отклик после
+            успешной перестановки.
+        */
+
+        hapticLight()
+    }
+
     function deleteExerciseFromCatalog(exercise) {
 
         openConfirmDialog({
@@ -554,6 +671,8 @@ function App() {
                         onUpdateSet={updateSet}
                         onDeleteSet={deleteSet}
                         onDeleteExercise={deleteExercise}
+                        
+                        onMoveExercise={moveExercise}
 
                         onOpenProgress={(exerciseId) => {
                             setSelectedExerciseId(exerciseId)
