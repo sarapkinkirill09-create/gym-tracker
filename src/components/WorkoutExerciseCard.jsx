@@ -115,7 +115,7 @@ function WorkoutExerciseCard({
                         {...attributes}
                         {...listeners}
                     >
-                        ⠿
+                         ⠿
                     </button>
 
                 </div>

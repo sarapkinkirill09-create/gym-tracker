@@ -26,6 +26,7 @@ function ExerciseList({
     onDeleteSet,
     onMoveExercise,
     onDeleteExercise,
+    onGeneratePdf,
     onOpenProgress
 }) {
 
@@ -246,6 +247,16 @@ function ExerciseList({
                     Добавить упражнение
                 </span>
             </button>
+
+            {workout.exercises.length > 0 && (
+                <button
+                    type="button"
+                    className="workout-pdf-button"
+                    onClick={onGeneratePdf}
+                >
+                    PDF тренировки
+                </button>
+            )}
         </>
     )
 }

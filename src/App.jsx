@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import exercises from './data/exercises'
 
 import {
     hapticLight,
@@ -7,6 +8,10 @@ import {
     hapticWarning,
     hapticError
 } from './utils/haptics'
+
+import {
+    generateWorkoutPdf
+} from './utils/generateWorkoutPdf'
 
 import Calendar from './components/Calendar'
 import WorkoutHeader from './components/WorkoutHeader'
@@ -164,6 +169,30 @@ function App() {
         setTimeout(() => {
             setToastMessage('')
         }, 3000)
+    }
+
+    function downloadWorkoutPdf() {
+
+        const allExercises = [
+            ...exercises,
+            ...customExercises
+        ].filter(
+            (exercise) =>
+                !deletedExerciseIds.includes(
+                    exercise.id
+                )
+        )
+
+
+        hapticLight()
+
+
+        generateWorkoutPdf({
+            dateKey,
+            workout:
+                currentWorkout,
+            allExercises
+        })
     }
 
     function openConfirmDialog({
@@ -671,8 +700,10 @@ function App() {
                         onUpdateSet={updateSet}
                         onDeleteSet={deleteSet}
                         onDeleteExercise={deleteExercise}
-                        
+
                         onMoveExercise={moveExercise}
+
+                        onGeneratePdf={downloadWorkoutPdf}
 
                         onOpenProgress={(exerciseId) => {
                             setSelectedExerciseId(exerciseId)
