@@ -3,6 +3,10 @@ import './App.css'
 import exercises from './data/exercises'
 
 import {
+    exportGymTrackerBackup
+} from './utils/backup'
+
+import {
     hapticLight,
     hapticMedium,
     hapticWarning,
@@ -169,6 +173,17 @@ function App() {
         setTimeout(() => {
             setToastMessage('')
         }, 3000)
+    }
+
+    function downloadBackup() {
+
+        exportGymTrackerBackup()
+
+        hapticLight()
+
+        showToast(
+            'Резервная копия создана'
+        )
     }
 
     function downloadWorkoutPdf() {
@@ -768,6 +783,7 @@ function App() {
                     measurements={measurements}
                     setMeasurements={setMeasurements}
                     onRequestConfirm={openConfirmDialog}
+                    onExportBackup={downloadBackup}
                 />
             ) : (
                 <ExerciseProgress

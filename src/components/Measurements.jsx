@@ -12,7 +12,8 @@ function Measurements({
     onBack,
     measurements,
     setMeasurements,
-    onRequestConfirm
+    onRequestConfirm,
+    onExportBackup
 }) {
     const [selectedMeasurement, setSelectedMeasurement] =
         useState(null)
@@ -967,7 +968,37 @@ function Measurements({
                 </div>
 
             )}
+          
+            <section className="backup-section">
 
+                <div className="backup-section-header">
+
+                    <span>
+                        Данные приложения
+                    </span>
+
+                    <h3>
+                        Резервная копия
+                    </h3>
+
+                    <p>
+                        Сохрани тренировки,
+                        измерения и свои упражнения
+                        в отдельный файл.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    className="backup-export-button"
+                    onClick={onExportBackup}
+                >
+                    Экспортировать данные
+                </button>
+
+            </section>
         </div>
     )
 }
