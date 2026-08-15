@@ -238,10 +238,10 @@ export function generateWorkoutPdf({
 
 
         pageMargins: [
-            40,
-            40,
-            40,
-            40
+            32,
+            32,
+            32,
+            32
         ],
 
 
@@ -309,9 +309,9 @@ export function generateWorkoutPdf({
 
                 margin: [
                     0,
-                    18,
+                    12,
                     0,
-                    8
+                    6
                 ]
             },
 
